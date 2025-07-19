@@ -1,0 +1,27 @@
+[
+  {
+    "id": "1",
+    "title": "Level 1: JavaScript Basics",
+    "description": "Learn variables, data types, operators, and more."
+  },
+  {
+    "id": "2",
+    "title": "Level 2: Arrays & Loops",
+    "description": "Master looping techniques and array manipulations."
+  },
+  {
+    "id": "3",
+    "title": "Level 3: Functions & Scope",
+    "description": "Understand scope, closures, and reusable code."
+  },
+  {
+    "id": "4",
+    "title": "Level 4: DOM & Events",
+    "description": "Manipulate the DOM and respond to user interactions."
+  },
+  {
+    "id": "5",
+    "title": "Level 5: Async & APIs",
+    "description": "Learn promises, async/await, and API calls."
+  }
+]

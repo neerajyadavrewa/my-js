@@ -1,0 +1,403 @@
+{
+  "id": "2",
+  "title": "Level 2: Arrays & Loops",
+  "description": "Master looping techniques, array methods like map/filter/reduce, and real-world array challenges.",
+  "topics": [
+    "Arrays & Array Methods",
+    "Loops (for, while, do-while)",
+    "Data Types & Type Conversion",
+    "Control Flow (if/else)",
+    "Console & Debugging Tools"
+  ],
+  "notes": [
+    {
+      "title": "What is an Array?",
+      "content": "An array is a special variable that can hold multiple values in a single reference. Values are stored by index, starting at 0.",
+      "codeSnippet": "let nums = [1, 2, 3];\nconsole.log(nums[0]); // 1",
+      "deepDive": "Arrays in JS are objects with numeric keys and have methods like `push`, `pop`, `map`, etc."
+    },
+    {
+      "title": "Looping with for",
+      "content": "The `for` loop runs a block of code a specific number of times—ideal for iterating arrays.",
+      "codeSnippet": "for (let i = 0; i < arr.length; i++) {\n  console.log(arr[i]);\n}",
+      "deepDive": "Using `let` in the loop header creates a new `i` for each iteration due to block scope."
+    },
+    {
+      "title": "Looping with while",
+      "content": "`while` loops run as long as a condition is true—useful when number of iterations isn’t known ahead.",
+      "codeSnippet": "let i = 0;\nwhile (i < 5) {\n  console.log(i);\n  i++;\n}",
+      "deepDive": "`do...while` runs once before checking the condition, ensuring at least one iteration."
+    },
+    {
+      "title": "Array length behavior",
+      "content": "The `.length` property returns the number of items in an array. Assigning a higher index increases length.",
+      "codeSnippet": "let a = [1, 2, 3]; a[5] = 6;\nconsole.log(a.length); // 6",
+      "deepDive": "Setting `.length` shorter truncates items; longer adds empty slots."
+    },
+    {
+      "title": "push & pop methods",
+      "content": "`push` adds to end, `pop` removes from end. They modify the array.",
+      "codeSnippet": "arr.push(4);\nconsole.log(arr.pop()); // 4",
+      "deepDive": "These are O(1) operations — ideal for stack-like behavior."
+    },
+    {
+      "title": "shift & unshift methods",
+      "content": "`shift` removes first element, `unshift` adds one or more to beginning. They mutate and are slower.",
+      "codeSnippet": "arr.unshift(0);\nconsole.log(arr.shift()); // 0",
+      "deepDive": "These operations are O(n), so avoid on large arrays frequently."
+    },
+    {
+      "title": "Map, Filter, Reduce",
+      "content": "`map` returns a new array by transforming elements; `filter` creates a subset; `reduce` aggregates values.",
+      "codeSnippet": "arr.map(x=>x*2);\narr.filter(x=>x%2);\narr.reduce((a,b)=>a+b,0);",
+      "deepDive": "`reduce` can be used to implement map, filter, and more—it's very flexible."
+    },
+    {
+      "title": "for...of vs for...in",
+      "content": "`for...of` iterates values, `for...in` iterates keys (properties). Use correctly.",
+      "codeSnippet": "for (const val of arr) console.log(val);",
+      "deepDive": "`for...in` also includes keys added via prototype chain—use with care."
+    },
+    {
+      "title": "Nested loops",
+      "content": "Use loops inside loops to iterate nested structures like grids or multidimensional arrays.",
+      "codeSnippet": "for (let i=0;i<matrix.length;i++){\n  for(let j=0;j<matrix[i].length;j++){\n    console.log(matrix[i][j]);\n  }\n}",
+      "deepDive": "Nested loops can significantly affect performance—O(n²) for 2D arrays."
+    },
+    {
+      "title": "break and continue",
+      "content": "`break` exits loop; `continue` skips to the next iteration.",
+      "codeSnippet": "for(let x of arr){ if(x===3) break; if(x%2) continue; console.log(x); }",
+      "deepDive": "Using these controls can complicate logic readability—use with caution."
+    },
+    {
+      "title": "Debugging loops",
+      "content": "Use `console.log`, breakpoints, and tools to inspect loop behavior.",
+      "codeSnippet": "for (let i=0;i<5;i++){\n debugger;\n console.log(i);\n}",
+      "deepDive": "DevTools can step through iterations, allowing breakpoints inside loops."
+    },
+    {
+      "title": "Type Conversion in Loops",
+      "content": "Beware implicit type conversion when accumulating values in loops.",
+      "codeSnippet": "let total=''; for(let x of [1,2,3]) total+=x;\nconsole.log(typeof total); // string",
+      "deepDive": "Always convert types explicitly if expecting numbers or strings."
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "[1,2,3].map(x => x * 2)",
+      "options": ["[2,4,6]", "[1,2,3]", "undefined", "Error"],
+      "correctAnswer": "[2,4,6]",
+      "explanation": "`map()` creates a new array with the result of calling a function on every element."
+    },
+    {
+      "question": "[1,2,3].filter(x => x > 1)",
+      "options": ["[2,3]", "[1,2,3]", "[1]", "Error"],
+      "correctAnswer": "[2,3]",
+      "explanation": "`filter()` returns elements that satisfy the condition."
+    },
+    {
+      "question": "[1,2,3].reduce((a,b)=>a+b, 0)",
+      "options": ["6", "123", "undefined", "Error"],
+      "correctAnswer": "6",
+      "explanation": "`reduce()` aggregates values; here it sums the array."
+    },
+    {
+      "question": "[].map(() => 1)",
+      "options": ["[]", "[1]", "[undefined]", "Error"],
+      "correctAnswer": "[]",
+      "explanation": "Mapping an empty array returns an empty array."
+    },
+    {
+      "question": "[].filter(() => true)",
+      "options": ["[]", "Error", "[undefined]", "[null]"],
+      "correctAnswer": "[]",
+      "explanation": "Filtering an empty array returns empty."
+    },
+    {
+      "question": "Array.concat(a,b) vs [...a, ...b]",
+      "options": ["Same result", "concat mutates", "spread errors", "copy by ref"],
+      "correctAnswer": "Same result",
+      "explanation": "Both concatenate and return a new array."
+    },
+    {
+      "question": "What does splice return?",
+      "options": ["Removed items", "Mutated array", "undefined", "Original array"],
+      "correctAnswer": "Removed items",
+      "explanation": "`splice()` returns an array of removed elements."
+    },
+    {
+      "question": "[1,2,3] + [4,5]",
+      "options": ["\"1,2,34,5\"", "[1,2,3,4,5]", "TypeError", "undefined"],
+      "correctAnswer": "\"1,2,34,5\"",
+      "explanation": "Arrays are coerced to strings during concatenation."
+    },
+    {
+      "question": "for...of loops:",
+      "options": ["Values", "Keys", "Indexes", "Entries"],
+      "correctAnswer": "Values",
+      "explanation": "`for...of` iterates over iterable values."
+    },
+    {
+      "question": "for...in loops:",
+      "options": ["Keys", "Values", "Both", "Neither"],
+      "correctAnswer": "Keys",
+      "explanation": "`for...in` iterates over property keys."
+    },
+    {
+      "question": "do...while guarantees:",
+      "options": ["At least once", "Maybe never", "Error", "Loop forever"],
+      "correctAnswer": "At least once",
+      "explanation": "It executes the loop before condition checking."
+    },
+    {
+      "question": "Using let in for loop:",
+      "options": ["Block-scoped", "Function-scoped", "Global", "Class-scoped"],
+      "correctAnswer": "Block-scoped",
+      "explanation": "`let` confines i to the loop scope."
+    },
+    {
+      "question": "continue does:",
+      "options": ["Skip", "Break", "Return", "Throw"],
+      "correctAnswer": "Skip",
+      "explanation": "It skips current iteration."
+    },
+    {
+      "question": "break does:",
+      "options": ["Exit loop", "Skip iteration", "Return", "Throw"],
+      "correctAnswer": "Exit loop",
+      "explanation": "It exits the loop entirely."
+    },
+    {
+      "question": "Array.reverse():",
+      "options": ["Mutates array", "Returns new", "Error", "Immutable"],
+      "correctAnswer": "Mutates array",
+      "explanation": "It changes the original array."
+    },
+    {
+      "question": "slice(0,2) vs splice(0,2)",
+      "options": ["slice returns new", "splice returns new", "Both new", "Error"],
+      "correctAnswer": "slice returns new",
+      "explanation": "`slice()` doesn't modify the original array."
+    },
+    {
+      "question": "Spread [...] on array:",
+      "options": ["Shallow copy", "Deep copy", "Mutates", "Error"],
+      "correctAnswer": "Shallow copy",
+      "explanation": "It copies array elements shallowly."
+    },
+    {
+      "question": "reduce() without initial:",
+      "options": ["Uses 1st item", "Error", "undefined", "0"],
+      "correctAnswer": "Uses 1st item",
+      "explanation": "The first item becomes accumulator."
+    },
+    {
+      "question": "while(i<0){ }",
+      "options": ["Never runs", "Runs once", "Runs infinitely", "Error"],
+      "correctAnswer": "Never runs",
+      "explanation": "Condition false, no iteration."
+    },
+    {
+      "question": "for(;;){ }",
+      "options": ["Infinite loop", "Error", "None ever", "undefined"],
+      "correctAnswer": "Infinite loop",
+      "explanation": "No condition defaults to true."
+    },
+    {
+      "question": "filter(() => false)",
+      "options": ["[]", "[undefined]", "[null]", "Error"],
+      "correctAnswer": "[]",
+      "explanation": "Empty array results from filtering all out."
+    },
+    {
+      "question": "map(() => undefined)",
+      "options": ["[undefined]", "[]", "Error", "[null]"],
+      "correctAnswer": "[undefined]",
+      "explanation": "Mapping to undefined yields an array of undefined values."
+    }
+  ],
+  "miniTasks": [
+    {
+      "title": "Get First Element",
+      "description": "Return the first element of an array or null if empty.",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function getFirst(arr) {\n  // TODO: return first item or null\n}",
+      "testCases": [
+        { "input": [1, 2, 3], "expected": 1 },
+        { "input": [], "expected": null }
+      ]
+    },
+    {
+      "title": "Sum Array Elements",
+      "description": "Return sum of all numbers in an array using a loop.",
+      "topic": "Loops (for, while, do-while)",
+      "starterCode": "function sumArray(arr) {\n  // TODO: sum values and return\n}",
+      "testCases": [
+        { "input": [1, 2, 3], "expected": 6 },
+        { "input": [], "expected": 0 }
+      ]
+    },
+    {
+      "title": "Filter Even Numbers",
+      "description": "Return a new array containing only even numbers using filter().",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function filterEvens(arr) {\n  // TODO: return array of evens\n}",
+      "testCases": [
+        { "input": [1, 2, 3, 4], "expected": [2, 4] },
+        { "input": [1, 3, 5], "expected": [] }
+      ]
+    },
+    {
+      "title": "Double Values",
+      "description": "Return a new array with each number doubled using map().",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function double(arr) {\n  // TODO: double each value\n}",
+      "testCases": [
+        { "input": [1, 2, 3], "expected": [2, 4, 6] },
+        { "input": [], "expected": [] }
+      ]
+    },
+    {
+      "title": "Count Occurrences",
+      "description": "Count how many times a value appears in an array using a loop.",
+      "topic": "Loops (for, while, do-while)",
+      "starterCode": "function countOccurrences(arr, val) {\n  // TODO: return count\n}",
+      "testCases": [
+        { "input": [[1,2,1,3], 1], "expected": 2 },
+        { "input": [[], 5], "expected": 0 }
+      ]
+    },
+    {
+      "title": "Flatten 2D Array with reduce",
+      "description": "Flatten a 2D array into a 1D array using reduce().",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function flatten2D(arr) {\n  // TODO: flatten nested arrays using reduce\n}",
+      "testCases": [
+        { "input": [[1,2],[3,4]], "expected": [1,2,3,4] },
+        { "input": [[], []], "expected": [] }
+      ]
+    },
+    {
+      "title": "Remove Duplicates with filter",
+      "description": "Return an array with duplicates removed using filter() and indexOf().",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function unique(arr) {\n  // TODO: remove duplicates\n}",
+      "testCases": [
+        { "input": [1,2,1,3], "expected": [1,2,3] },
+        { "input": [], "expected": [] }
+      ]
+    },
+    {
+      "title": "Sum Positive Numbers",
+      "description": "Using filter() and reduce(), return the sum of only positive numbers.",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function sumPositives(arr) {\n  // TODO: filter out positives and reduce sum\n}",
+      "testCases": [
+        { "input": [-1,2,3,-5], "expected": 5 },
+        { "input": [-2,-3], "expected": 0 }
+      ]
+    },
+    {
+      "title": "Create Index‑Value Pairs",
+      "description": "Return an array of strings like '0: a', '1: b' using map().",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function indexValue(arr) {\n  // TODO: map each value to 'index: value'\n}",
+      "testCases": [
+        { "input": ["a","b","c"], "expected": ["0: a","1: b","2: c"] },
+        { "input": [], "expected": [] }
+      ]
+    },
+    {
+      "title": "Loop Until Sum ≥ 10",
+      "description": "Use while to add numbers starting at 1 until total ≥ 10.",
+      "topic": "Loops (for, while, do-while)",
+      "starterCode": "function accumulate() {\n  const arr = [];\n  let sum = 0;\n  // TODO: while push 1,2,... until sum >= 10\n  return arr;\n}",
+      "testCases": [
+        { "input": null, "expected": [1,2,3,4] }
+      ]
+    },
+    {
+      "title": "Filter Objects by Property",
+      "description": "Filter array of objects where completed is true using filter().",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function getCompleted(tasks) {\n  // TODO: filter tasks with completed:true\n}",
+      "testCases": [
+        { "input": [[{"id":1,"completed":true},{"id":2,"completed":false}]], "expected": [{"id":1,"completed":true}] }
+      ]
+    },
+    {
+      "title": "Extract Property Values",
+      "description": "Return an array of name properties using map().",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function getNames(users) {\n  // TODO: extract name property\n}",
+      "testCases": [
+        { "input": [[{"name":"Alice"},{"name":"Bob"}]], "expected": ["Alice","Bob"] }
+      ]
+    },
+    {
+      "title": "Count Truthy Values",
+      "description": "Count how many values in array are truthy using a loop.",
+      "topic": "Loops (for, while, do-while)",
+      "starterCode": "function countTruthy(arr) {\n  // TODO: loop and count truthy\n}",
+      "testCases": [
+        { "input": [0,1,"",false,"hello"], "expected": 2 }
+      ]
+    },
+    {
+      "title": "Concatenate Arrays",
+      "description": "Return combined array of two inputs using spread operator.",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function concatArrays(a, b) {\n  // TODO: use spread to concatenate\n}",
+      "testCases": [
+        { "input": [[1,2],[3,4]], "expected": [1,2,3,4] }
+      ]
+    },
+    {
+      "title": "Loop Object Keys",
+      "description": "Return array of 'key:value' strings using for...in on object.",
+      "topic": "Loops (for, while, do-while)",
+      "starterCode": "function kvStrings(obj) {\n  // TODO: loop over object keys\n}",
+      "testCases": [
+        { "input": [{"a":1,"b":2}], "expected": ["a:1","b:2"] }
+      ]
+    },
+    {
+      "title": "Find Max with Reduce",
+      "description": "Return the maximum value in an array using reduce().",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function findMax(arr) {\n  // TODO: reduce to find max or return null if empty\n}",
+      "testCases": [
+        { "input": [3,1,4,2], "expected": 4 },
+        { "input": [], "expected": null }
+      ]
+    },
+    {
+      "title": "Reverse Array",
+      "description": "Return a reversed copy of array using slice() and reverse().",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function reverseArr(arr) {\n  // TODO: return reversed copy\n}",
+      "testCases": [
+        { "input": [1,2,3], "expected": [3,2,1] }
+      ]
+    },
+    {
+      "title": "Remove Falsy Values",
+      "description": "Return array of only truthy values using filter().",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function compact(arr) {\n  // TODO: filter truthy values\n}",
+      "testCases": [
+        { "input": [0,1,"",null,true], "expected": [1,true] }
+      ]
+    },
+    {
+      "title": "Partition Array",
+      "description": "Split array into [truthy, falsy] using predicate and loops.",
+      "topic": "Arrays & Array Methods",
+      "starterCode": "function partition(arr, predicate) {\n  // TODO: return [truthyArr, falsyArr]\n}",
+      "testCases": [
+        { "input": [[1,2,3,4], "x => x % 2 === 0"], "expected": [[2,4],[1,3]] }
+      ]
+    }
+  ]
+}

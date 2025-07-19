@@ -1,0 +1,421 @@
+{
+  "id": "1",
+  "title": "Level 1: JavaScript Basics",
+  "description": "A complete journey through JavaScript fundamentals including variables, data types, operators, functions, scope, control flow, and more.",
+  "topics": [
+    "JavaScript Introduction",
+    "Variables & Constants",
+    "Data Types & Type Conversion",
+    "Operators & Expressions",
+    "Control Flow (if/else, switch)",
+    "Loops (for, while, do-while)",
+    "Functions & Parameters",
+    "Scope & Closures",
+    "Error Handling (try/catch)",
+    "Strict Mode",
+    "Console & Debugging Tools"
+  ],
+  "notes": [
+   {
+      "title": "JavaScript Introduction",
+      "content": "JavaScript is a high-level, interpreted programming language used mainly for adding interactivity and logic to web pages. It is a core technology of the web, along with HTML and CSS.\n\n- Client-side & Server-side: Runs in the browser and on the server (e.g., Node.js).\n- Dynamically typed: You don’t need to declare variable types.\n- Event-driven: Commonly used with events (clicks, form submissions).\n- Syntax resembles C: Easy to learn for those familiar with C-based languages.",
+      "codeSnippet": "alert('Hello, world!');\nconsole.log('Welcome to JavaScript');",
+      "deepDive": "JavaScript engines (like V8 in Chrome) execute the code. Modern JS (ES6+) introduces many improvements, like `let`, `const`, arrow functions, etc."
+    },
+    {
+      "title": "Variables & Constants",
+      "content": "JavaScript variables can be declared using `var`, `let`, or `const`.\n\n- `var`: Function-scoped, hoisted, can be redeclared.\n- `let`: Block-scoped, not hoisted to the top, can be reassigned.\n- `const`: Block-scoped, must be initialized and cannot be reassigned.",
+      "codeSnippet": "var a = 10;\nlet b = 20;\nconst c = 30;\n\nconsole.log(x); // undefined due to hoisting\nvar x = 5;",
+      "deepDive": "Use `let` and `const` for predictable scoping. `const` doesn’t make objects immutable, only prevents reassignment."
+    },
+    {
+      "title": "Data Types & Type Conversion",
+      "content": "JavaScript has 7 primitive types:\n- String, Number, BigInt, Boolean, undefined, null, Symbol\n\nNon-primitive (reference) types:\n- Objects\n- Arrays\n- Functions\n\nType Conversion:\n- Implicit (coercion): JS automatically converts types.\n- Explicit: Using functions like `String()`, `Number()`, `Boolean()`.",
+      "codeSnippet": "console.log(Number(\"42\")); // 42\nconsole.log(Boolean(\"\")); // false\n\nconsole.log(typeof \"hello\"); // \"string\"\nconsole.log(typeof null);    // \"object\"\nconsole.log(Object.prototype.toString.call([])); // [object Array]",
+      "deepDive": "Use `typeof` for simple checks, and `Object.prototype.toString.call()` for precise type detection."
+    },
+    {
+      "title": "Operators & Expressions",
+      "content": "JavaScript supports various operators:\n- Arithmetic: +, -, *, /, %, **\n- Assignment: =, +=, -=, etc.\n- Comparison: ==, ===, !=, !==, <, >\n- Logical: &&, ||, !\n- Unary: typeof, delete\n\nExpressions are combinations of variables, operators, and values that produce a result.",
+      "codeSnippet": "let x = 5 + 3 * 2; // 11\nconsole.log(x);\n\nconsole.log(5 === \"5\"); // false\nconsole.log(5 == \"5\");  // true",
+      "deepDive": "Use `===` instead of `==` to avoid unexpected type coercion."
+    },
+    {
+      "title": "Control Flow (if/else, switch)",
+      "content": "Control flow structures allow decision-making in JavaScript programs.",
+      "codeSnippet": "let age = 20;\nif (age >= 18) {\n  console.log(\"Adult\");\n} else {\n  console.log(\"Minor\");\n}\n\nlet fruit = 'apple';\nswitch (fruit) {\n  case 'apple':\n    console.log('It’s an apple');\n    break;\n  default:\n    console.log('Unknown fruit');\n}",
+      "deepDive": "Use `switch` over `if-else` when checking the same variable against many values."
+    },
+    {
+      "title": "Loops (for, while, do-while)",
+      "content": "Loops help run a block of code multiple times until a condition is false.",
+      "codeSnippet": "for (let i = 0; i < 5; i++) {\n  console.log(i);\n}\n\nlet j = 0;\nwhile (j < 5) {\n  console.log(j);\n  j++;\n}\n\ndo {\n  console.log(j);\n  j++;\n} while (j < 10);",
+      "deepDive": "Use `for...of` for iterating over arrays and `for...in` for objects."
+    },
+    {
+      "title": "Functions & Parameters",
+      "content": "Functions are reusable blocks of code that can take inputs (parameters) and return outputs.",
+      "codeSnippet": "function greet(name) {\n  return `Hello, ${name}`;\n}\n\nconst greetArrow = (name = 'Guest') => `Hello, ${name}`;\n\nfunction sum(...nums) {\n  return nums.reduce((a, b) => a + b, 0);\n}",
+      "deepDive": "Arrow functions don’t have their own `this`, making them ideal for callbacks."
+    },
+    {
+      "title": "Scope & Closures",
+      "content": "Scope defines where variables are accessible.\n- Global scope\n- Function scope\n- Block scope\n\nClosures allow functions to remember variables from their outer (enclosing) scope even after that scope has finished executing.",
+      "codeSnippet": "function outer() {\n  let count = 0;\n  return function inner() {\n    count++;\n    return count;\n  };\n}\n\nconst counter = outer();\nconsole.log(counter()); // 1\nconsole.log(counter()); // 2",
+      "deepDive": "Closures are used for data privacy, such as in module patterns or factory functions."
+    },
+    {
+      "title": "Error Handling (try/catch)",
+      "content": "JavaScript provides `try`, `catch`, and `finally` blocks to gracefully handle runtime errors.",
+      "codeSnippet": "try {\n  throw new Error(\"Something went wrong\");\n} catch (err) {\n  console.error(err.message);\n} finally {\n  console.log(\"Cleanup actions\");\n}",
+      "deepDive": "Use `try/catch` around unpredictable or external code like API calls or DOM access."
+    },
+    {
+      "title": "Strict Mode",
+      "content": "Strict mode catches silent JavaScript errors and prevents insecure practices.",
+      "codeSnippet": "\"use strict\";\nundeclaredVar = 10; // ReferenceError",
+      "deepDive": "Helps in writing cleaner, error-free code. Always put it at the top of scripts or functions."
+    },
+    {
+      "title": "Console & Debugging Tools",
+      "content": "The browser console is useful for debugging and inspecting values.",
+      "codeSnippet": "console.log(\"Normal log\");\nconsole.error(\"This is an error\");\nconsole.table([{ name: \"Alice\" }, { name: \"Bob\" }]);\ndebugger; // Pauses in DevTools",
+      "deepDive": "Use Chrome DevTools to inspect variables, set breakpoints, and step through code execution."
+    }
+  ],
+  "mcqs": [
+  {
+    "question": "Which keyword is used to define a constant in JavaScript?",
+    "options": ["var", "const", "let", "define"],
+    "correctAnswer": "const",
+    "explanation": "`const` creates a read-only reference to a value. It must be initialized at declaration and cannot be reassigned."
+  },
+  {
+    "question": "What will be the output: `console.log(typeof null)`?",
+    "options": ["'object'", "'null'", "'undefined'", "'false'"],
+    "correctAnswer": "'object'",
+    "explanation": "`typeof null` returns `'object'` due to a historical bug in JavaScript that was never fixed for backward compatibility."
+  },
+  {
+    "question": "Which loop guarantees the block will execute at least once?",
+    "options": ["for", "while", "do-while", "none"],
+    "correctAnswer": "do-while",
+    "explanation": "The `do-while` loop executes its block first before checking the condition, ensuring at least one run."
+  },
+  {
+    "question": "Which keyword should you prefer for defining mutable variables?",
+    "options": ["var", "const", "let", "static"],
+    "correctAnswer": "let",
+    "explanation": "`let` is block-scoped and suitable for values that can change. Unlike `var`, it avoids hoisting issues and is safer."
+  },
+  {
+    "question": "Which of the following is NOT a primitive type in JavaScript?",
+    "options": ["String", "Object", "Boolean", "Number"],
+    "correctAnswer": "Object",
+    "explanation": "Objects are reference types, not primitive. Primitive types include String, Number, Boolean, undefined, null, Symbol, and BigInt."
+  },
+  {
+    "question": "Which statement about `var` is TRUE?",
+    "options": [
+      "`var` is block-scoped",
+      "`var` must be initialized",
+      "`var` is hoisted and function-scoped",
+      "`var` can’t be re-declared"
+    ],
+    "correctAnswer": "`var` is hoisted and function-scoped",
+    "explanation": "`var` declarations are hoisted to the top of the function scope, which can lead to bugs in large programs."
+  },
+  {
+    "question": "Which operator checks both value and type?",
+    "options": ["==", "!=", "===", "&&"],
+    "correctAnswer": "===",
+    "explanation": "`===` checks for both type and value equality. `==` only checks value with type coercion."
+  },
+  {
+    "question": "What is the result of `5 + '5'` in JavaScript?",
+    "options": ["10", "'55'", "NaN", "SyntaxError"],
+    "correctAnswer": "'55'",
+    "explanation": "The number `5` is coerced into a string, resulting in string concatenation: `'55'`."
+  },
+  {
+    "question": "What will `console.log(typeof undefined)` return?",
+    "options": ["'object'", "'null'", "'undefined'", "'false'"],
+    "correctAnswer": "'undefined'",
+    "explanation": "The `typeof` operator returns `'undefined'` when a variable has been declared but not assigned a value."
+  },
+  {
+    "question": "Which function syntax is most suitable for preserving `this` context?",
+    "options": ["Traditional function", "Function declaration", "Arrow function", "Anonymous function"],
+    "correctAnswer": "Arrow function",
+    "explanation": "Arrow functions do not have their own `this`, and inherit it from their enclosing scope."
+  },
+  {
+    "question": "Which method is used to catch and handle errors in JavaScript?",
+    "options": ["throw-catch", "try-catch", "catch-throw", "handle-error"],
+    "correctAnswer": "try-catch",
+    "explanation": "`try-catch` blocks allow you to run code that might fail and handle the error gracefully if it does."
+  },
+  {
+    "question": "Which statement enables strict mode in JavaScript?",
+    "options": ["enable strict", "'strict mode';", "'use strict';", "#strict"],
+    "correctAnswer": "'use strict';",
+    "explanation": "`'use strict';` should be at the top of your script or function to enable strict mode and catch common bugs."
+  },
+  {
+    "question": "What will `console.log(3 == '3')` print?",
+    "options": ["false", "true", "undefined", "error"],
+    "correctAnswer": "true",
+    "explanation": "`==` allows type coercion, so the string `'3'` is converted to number `3`, and the result is `true`."
+  },
+  {
+    "question": "How can you define a reusable block of code in JavaScript?",
+    "options": ["Module", "Class", "Function", "Object"],
+    "correctAnswer": "Function",
+    "explanation": "Functions are reusable blocks of code that can be called with different arguments."
+  },
+  {
+    "question": "Which control structure is best suited for choosing one option out of many?",
+    "options": ["if-else", "for loop", "switch", "try-catch"],
+    "correctAnswer": "switch",
+    "explanation": "`switch` is more readable when multiple conditions are based on a single variable value."
+  },
+  {
+    "question": "Which keyword is used to exit a loop immediately?",
+    "options": ["exit", "stop", "break", "return"],
+    "correctAnswer": "break",
+    "explanation": "`break` exits the nearest enclosing loop or switch statement immediately."
+  },
+  {
+    "question": "Which console method shows a table view of objects or arrays?",
+    "options": ["console.log()", "console.error()", "console.table()", "console.dir()"],
+    "correctAnswer": "console.table()",
+    "explanation": "`console.table()` displays data in a tabular format in the browser console, improving readability for arrays and objects."
+  },
+  {
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A function that calls itself",
+      "A variable that is global",
+      "A function that remembers its outer scope",
+      "An object with internal state"
+    ],
+    "correctAnswer": "A function that remembers its outer scope",
+    "explanation": "Closures allow inner functions to access variables defined in their outer (enclosing) functions even after those outer functions have executed."
+  },
+  {
+    "question": "Which type of scope does `let` and `const` use?",
+    "options": ["Function", "Global", "Block", "Class"],
+    "correctAnswer": "Block",
+    "explanation": "`let` and `const` are block-scoped, meaning they only exist within the nearest `{}` block."
+  },
+  {
+    "question": "What happens if you reassign a `const` variable?",
+    "options": [
+      "It silently changes",
+      "It throws an error",
+      "It becomes undefined",
+      "It gets coerced"
+    ],
+    "correctAnswer": "It throws an error",
+    "explanation": "`const` variables cannot be reassigned. Doing so throws a TypeError in strict mode."
+  },  {
+    "question": "Which function converts a string '123' into a number explicitly?",
+    "options": ["parseInt()", "Number()", "toNumber()", "int()"],
+    "correctAnswer": "Number()",
+    "explanation": "`Number('123')` explicitly converts a string to a number. `parseInt()` is similar but stops at non-numeric characters."
+  },
+  {
+    "question": "Which of the following is used to define a symbolic unique identifier?",
+    "options": ["Symbol()", "Unique()", "ID()", "Reference()"],
+    "correctAnswer": "Symbol()",
+    "explanation": "The `Symbol()` function creates a unique, immutable identifier used primarily as object keys."
+  },
+  {
+    "question": "What does `typeof NaN` return?",
+    "options": ["'undefined'", "'object'", "'number'", "'NaN'"],
+    "correctAnswer": "'number'",
+    "explanation": "`NaN` stands for Not-a-Number, but its type is still `'number'` according to JavaScript's type system."
+  },
+  {
+    "question": "Which of the following will throw an error in strict mode?",
+    "options": [
+      "x = 10;",
+      "let x = 10;",
+      "console.log('Hello')",
+      "const PI = 3.14;"
+    ],
+    "correctAnswer": "x = 10;",
+    "explanation": "In strict mode, assigning a value to an undeclared variable (like `x = 10;`) throws a ReferenceError."
+  },
+  {
+    "question": "Which method is used to iterate over array values directly?",
+    "options": ["for...in", "for...of", "forEach()", "map()"],
+    "correctAnswer": "for...of",
+    "explanation": "`for...of` iterates directly over the values in an iterable (like arrays). `for...in` loops over keys."
+  },
+  {
+    "question": "How can you prevent a function from executing its default behavior?",
+    "options": ["stop()", "cancel()", "preventDefault()", "stopPropagation()"],
+    "correctAnswer": "preventDefault()",
+    "explanation": "In event handling, `preventDefault()` stops the browser from executing the default action (e.g., following a link)."
+  },
+  {
+    "question": "What is the default value of uninitialized variables in JavaScript?",
+    "options": ["null", "0", "undefined", "NaN"],
+    "correctAnswer": "undefined",
+    "explanation": "If a variable is declared but not assigned, its value is `undefined`."
+  },
+  {
+    "question": "What will the following code print: `console.log([] + [])`?",
+    "options": ["0", "[]", "'[object Object]'", "''"],
+    "correctAnswer": "''",
+    "explanation": "Adding two empty arrays results in an empty string due to type coercion (arrays are converted to empty strings)."
+  },
+  {
+    "question": "Which of these is a falsy value in JavaScript?",
+    "options": ["[]", "''", "1", "{}"],
+    "correctAnswer": "''",
+    "explanation": "Falsy values include: `false`, `0`, `''`, `null`, `undefined`, `NaN`. An empty string is falsy."
+  },
+  {
+    "question": "What is the scope of a variable declared inside a block using `let`?",
+    "options": ["Global", "Function", "Block", "Module"],
+    "correctAnswer": "Block",
+    "explanation": "`let` variables are block-scoped, meaning they are accessible only within the `{}` they are declared in."
+  },
+  {
+    "question": "What keyword is used to throw a user-defined error?",
+    "options": ["error", "raise", "throw", "fail"],
+    "correctAnswer": "throw",
+    "explanation": "JavaScript uses the `throw` keyword to generate a user-defined exception."
+  },
+  {
+    "question": "What is the output of `console.log(0 === false)`?",
+    "options": ["true", "false", "undefined", "error"],
+    "correctAnswer": "false",
+    "explanation": "`===` checks both value and type. `0` is a number and `false` is a boolean, so they are not strictly equal."
+  },
+  {
+    "question": "Which method stops the execution at a point in the browser for debugging?",
+    "options": ["pause()", "debug()", "debugger", "breakpoint()"],
+    "correctAnswer": "debugger",
+    "explanation": "Placing `debugger;` in code pauses execution at that point when DevTools is open."
+  },
+  {
+    "question": "Which keyword defines a function in JavaScript?",
+    "options": ["method", "func", "function", "define"],
+    "correctAnswer": "function",
+    "explanation": "The `function` keyword is used to declare functions in JavaScript."
+  },
+  {
+    "question": "What is the purpose of the `finally` block in error handling?",
+    "options": [
+      "To handle errors after `catch`",
+      "To execute only if an error occurs",
+      "To run code regardless of error",
+      "To log exceptions"
+    ],
+    "correctAnswer": "To run code regardless of error",
+    "explanation": "The `finally` block runs whether or not the error was caught in `catch`. It's useful for cleanup."
+  }
+],
+  "miniTasks": [
+  {
+    "title": "Return Hello JavaScript",
+    "description": "Create a function that returns the string 'Hello, JavaScript!'. A great start to practice basic syntax and return values.",
+    "topic": "JavaScript Introduction",
+    "starterCode": "function greetJS() {\n  // TODO: Return the correct greeting string\n}",
+    "testCases": [
+      { "input": null, "expected": "Hello, JavaScript!" }
+    ]
+  },
+  {
+    "title": "Create a Constant Pi",
+    "description": "Declare a constant named 'PI' and assign it the value 3.14. Return the value of PI. Focus is on const usage.",
+    "topic": "Variables & Constants",
+    "starterCode": "function getPi() {\n  // TODO: Define const PI and return it\n}",
+    "testCases": [
+      { "input": null, "expected": 3.14 }
+    ]
+  },
+  {
+    "title": "Convert String to Number",
+    "description": "Convert the input string to a number using Number() or parseFloat(). Helps understand type conversion.",
+    "topic": "Data Types & Type Conversion",
+    "starterCode": "function toNumber(str) {\n  // TODO: Convert input to number\n}",
+    "testCases": [
+      { "input": "42", "expected": 42 },
+      { "input": "3.14", "expected": 3.14 }
+    ]
+  },
+  {
+    "title": "Use Arithmetic Operators",
+    "description": "Return the result of (a + b) * 2. Focuses on using arithmetic operators and understanding precedence.",
+    "topic": "Operators & Expressions",
+    "starterCode": "function computeExpression(a, b) {\n  // TODO: Return (a + b) multiplied by 2\n}",
+    "testCases": [
+      { "input": [2, 3], "expected": 10 },
+      { "input": [4, 1], "expected": 10 }
+    ]
+  },
+  {
+    "title": "Check Temperature Level",
+    "description": "Return 'Cold' if temperature is below 20, otherwise 'Warm'. Uses if/else conditional logic.",
+    "topic": "Control Flow (if/else, switch)",
+    "starterCode": "function checkTemp(temp) {\n  // TODO: Return 'Cold' or 'Warm' based on temp\n}",
+    "testCases": [
+      { "input": 15, "expected": "Cold" },
+      { "input": 25, "expected": "Warm" }
+    ]
+  },
+  {
+    "title": "Sum First N Numbers",
+    "description": "Return the sum of first 'n' natural numbers using a for loop. Helps with loop syntax and summation.",
+    "topic": "Loops (for, while, do-while)",
+    "starterCode": "function sumFirstN(n) {\n  // TODO: Use a loop to add numbers from 1 to n\n}",
+    "testCases": [
+      { "input": 5, "expected": 15 },
+      { "input": 3, "expected": 6 }
+    ]
+  },
+  {
+    "title": "Create a Greeting",
+    "description": "Return a greeting message using the given name, like 'Hello, Neeraj!'. Practice using function parameters and template literals.",
+    "topic": "Functions & Parameters",
+    "starterCode": "function greet(name) {\n  // TODO: Return a greeting using name\n}",
+    "testCases": [
+      { "input": "Neeraj", "expected": "Hello, Neeraj!" },
+      { "input": "John", "expected": "Hello, John!" }
+    ]
+  },
+  {
+    "title": "Demonstrate Closure",
+    "description": "Return a function that adds 5 to its input using a closure. Closures allow inner functions to access variables from outer ones.",
+    "topic": "Scope & Closures",
+    "starterCode": "function createAdder() {\n  const base = 5;\n  // TODO: Return a function that adds base to given number\n}",
+    "testCases": [
+      { "input": 10, "expected": 15 }
+    ]
+  },
+  {
+    "title": "Safe JSON Parse",
+    "description": "Parse the input string using JSON.parse. If it fails, return 'Invalid JSON'. Demonstrates try/catch usage.",
+    "topic": "Error Handling (try/catch)",
+    "starterCode": "function safeParse(input) {\n  // TODO: Try parsing JSON, return object or error string\n  try {\n  } catch (err) {\n    }\n}",
+    "testCases": [
+      { "input": "{\"name\":\"John\"}", "expected": { "name": "John" } },
+      { "input": "invalid json", "expected": "Invalid JSON" }
+    ]
+  },
+  {
+    "title": "Enable Strict Mode",
+    "description": "Use 'use strict' and try assigning a variable without declaring it. Catch and return the error message.",
+    "topic": "Strict Mode",
+    "starterCode": "function strictTest() {\n  'use strict';\n  try {\n    } catch (err) {\n  }\n}",
+    "testCases": [
+      { "input": null, "expected": "x is not defined" }
+    ]
+  }
+]
+
+}

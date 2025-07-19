@@ -1,0 +1,737 @@
+{
+  "id": "3",
+  "title": "Level 3: Functions & Scope",
+  "description": "Understand functions, parameters, scope, closures, and how JavaScript manages context and reusability.",
+  "topics": [
+    "Function Declarations & Expressions",
+    "Arrow Functions",
+    "Default & Rest Parameters",
+    "Function Scope vs Block Scope",
+    "Closures",
+    "Lexical Scope",
+    "IIFEs",
+    "`this` in Functions and Arrow Functions",
+    "Function Hoisting",
+    "Higher-Order Functions",
+    "Anonymous Functions"
+  ],
+  "notes": [
+    {
+      "title": "Function Declarations vs Expressions",
+      "content": "Functions in JavaScript can be declared using `function name() {}` or assigned to a variable (expression).",
+      "codeSnippet": "function greet() { return 'Hello'; }\nconst greet2 = function() { return 'Hi'; }",
+      "deepDive": "Function declarations are hoisted completely. Expressions are not, so calling them before definition throws an error."
+    },
+    {
+      "title": "Arrow Functions",
+      "content": "Introduced in ES6, arrow functions provide a concise syntax and use lexical `this`.",
+      "codeSnippet": "const sum = (a, b) => a + b;",
+      "deepDive": "Arrow functions do not bind their own `this`, `arguments`, or `super` and cannot be used as constructors."
+    },
+    {
+      "title": "Default Parameters",
+      "content": "You can provide default values to function parameters to avoid `undefined` errors.",
+      "codeSnippet": "function greet(name = 'Guest') { return `Hello, ${name}`; }",
+      "deepDive": "Defaults are evaluated at call time. Later parameters can reference earlier ones."
+    },
+    {
+      "title": "Rest Parameters",
+      "content": "Rest parameters allow a function to accept any number of arguments.",
+      "codeSnippet": "function sumAll(...nums) { return nums.reduce((a, b) => a + b, 0); }",
+      "deepDive": "Only one rest parameter is allowed, and it must be the last parameter."
+    },
+    {
+      "title": "Function Scope & Block Scope",
+      "content": "Variables declared with `var` are function-scoped; `let` and `const` are block-scoped.",
+      "codeSnippet": "if (true) { var x = 10; let y = 20; } console.log(x); // 10, console.log(y); // Error",
+      "deepDive": "`let` and `const` provide cleaner scoping, reducing accidental leakage of variables."
+    },
+    {
+      "title": "Closures",
+      "content": "A closure is when a function remembers variables from its lexical scope even when called outside of that scope.",
+      "codeSnippet": "function makeAdder(x) { return function(y) { return x + y; }; } const add5 = makeAdder(5);",
+      "deepDive": "Closures are the backbone of many JS patterns like data hiding, currying, and modules."
+    },
+    {
+      "title": "Lexical Scope",
+      "content": "Lexical scope means a function's scope is defined by where it's written, not how it's called.",
+      "codeSnippet": "const outer = () => { let x = 10; const inner = () => console.log(x); inner(); };",
+      "deepDive": "Lexical scoping allows closures to work. Arrow functions inherit their parent's scope."
+    },
+    {
+      "title": "IIFEs",
+      "content": "Immediately Invoked Function Expressions run right after they are defined.",
+      "codeSnippet": "(function() { console.log('Run'); })();",
+      "deepDive": "IIFEs are used to create isolated scope, often for avoiding global variable pollution."
+    },
+    {
+      "title": "Function Hoisting",
+      "content": "Function declarations are hoisted to the top of their scope, allowing early calls.",
+      "codeSnippet": "say(); function say() { console.log('Hello'); }",
+      "deepDive": "Only declarations (not expressions) are hoisted."
+    },
+    {
+      "title": "`this` in Functions",
+      "content": "`this` behaves differently in functions vs arrow functions.",
+      "codeSnippet": "const obj = { val: 1, getVal() { return this.val; } }; obj.getVal();",
+      "deepDive": "Arrow functions don't bind their own `this`, making them ideal for callbacks and event handlers."
+    },
+    {
+      "title": "Higher-Order Functions",
+      "content": "Functions that take or return another function are called higher-order.",
+      "codeSnippet": "function repeat(n, action) { for (let i = 0; i < n; i++) action(i); }",
+      "deepDive": "They are the foundation for map, filter, reduce and functional programming."
+    },
+    {
+      "title": "Anonymous Functions",
+      "content": "Functions without names are anonymous, useful for inline behavior.",
+      "codeSnippet": "[1, 2, 3].map(function(x) { return x * 2; })",
+      "deepDive": "Used commonly in callbacks. Arrow functions make anonymous functions cleaner and shorter."
+    }
+  ],
+  "mcqs":[
+  {
+    "question": "Which of the following is a correct function declaration in JavaScript?",
+    "options": [
+      "function = greet() {}",
+      "def greet() {}",
+      "function greet() {}",
+      "func greet() {}"
+    ],
+    "correctAnswer": "function greet() {}",
+    "explanation": "JavaScript uses the `function` keyword to declare functions. The syntax is: function name(parameters) { }."
+  },
+  {
+    "question": "What is a closure in JavaScript?",
+    "options": [
+      "A function that returns another function",
+      "A function with no parameters",
+      "A function that can only be called once",
+      "A function that runs immediately after it's defined"
+    ],
+    "correctAnswer": "A function that returns another function",
+    "explanation": "A closure is a function that has access to its own scope, the outer function’s scope, and the global scope."
+  },
+  {
+    "question": "Which scope does `var` have?",
+    "options": [
+      "Block",
+      "Function",
+      "Global only",
+      "Module"
+    ],
+    "correctAnswer": "Function",
+    "explanation": "`var` is function-scoped, meaning it is accessible anywhere within the function it was defined in."
+  },
+  {
+    "question": "What will be logged?\n\n```javascript\nfunction foo() {\n  console.log(a);\n  var a = 5;\n}\nfoo();\n```",
+    "options": [
+      "5",
+      "undefined",
+      "ReferenceError",
+      "null"
+    ],
+    "correctAnswer": "undefined",
+    "explanation": "Due to hoisting, `a` is declared but not initialized, so `console.log(a)` returns `undefined`."
+  },
+  {
+    "question": "What is the output of this IIFE?\n\n```javascript\n(function(){ console.log('Hi'); })();\n```",
+    "options": [
+      "Nothing",
+      "SyntaxError",
+      "Hi",
+      "undefined"
+    ],
+    "correctAnswer": "Hi",
+    "explanation": "IIFE (Immediately Invoked Function Expression) runs as soon as it is defined. So it logs 'Hi'."
+  },
+  {
+    "question": "What is the output of the following code?\n\n```js\nfunction test() {\n  var a = 1;\n  if (true) {\n    var a = 2;\n    console.log(a);\n  }\n  console.log(a);\n}\ntest();\n```",
+    "options": [
+      "1, 1",
+      "2, 2",
+      "2, 1",
+      "ReferenceError"
+    ],
+    "correctAnswer": "2, 2",
+    "explanation": "`var` is function-scoped, so redeclaring `a` inside the block overrides it for the entire function."
+  },
+  {
+    "question": "Which of the following correctly describes a closure?",
+    "options": [
+      "A function that keeps its own private variables accessible even after execution",
+      "A function that runs only once",
+      "A function that cannot access outer variables",
+      "A function that is always anonymous"
+    ],
+    "correctAnswer": "A function that keeps its own private variables accessible even after execution",
+    "explanation": "Closures allow functions to access variables from their creation scope even after the outer function has finished."
+  },
+  {
+    "question": "What is the difference between `let` and `var`?",
+    "options": [
+      "`let` is block-scoped; `var` is function-scoped",
+      "Both are block-scoped",
+      "`let` can be redeclared; `var` cannot",
+      "Both are function-scoped"
+    ],
+    "correctAnswer": "`let` is block-scoped; `var` is function-scoped",
+    "explanation": "`let` confines variables to the block, `var` to the function."
+  },
+  {
+    "question": "Which syntax defines an arrow function?",
+    "options": [
+      "function() => {}",
+      "() => {}",
+      "func => {}",
+      "=> function() {}"
+    ],
+    "correctAnswer": "() => {}",
+    "explanation": "Arrow functions use the `=>` syntax with parentheses for parameters."
+  },
+  {
+    "question": "What will the following code output?\n\n```js\nconst add = (x) => (y) => x + y;\nconsole.log(add(2)(3));\n```",
+    "options": [
+      "5",
+      "2",
+      "NaN",
+      "Error"
+    ],
+    "correctAnswer": "5",
+    "explanation": "This is a closure; `add(2)` returns a function that adds `2` to its argument."
+  },
+  {
+    "question": "What is hoisting in JavaScript?",
+    "options": [
+      "Moving declarations to the top of their scope",
+      "Executing functions before they are declared",
+      "Automatically initializing variables with zero",
+      "Delaying variable declaration until needed"
+    ],
+    "correctAnswer": "Moving declarations to the top of their scope",
+    "explanation": "Hoisting is JavaScript's behavior of moving variable and function declarations to the top of their scope before execution."
+  },
+  {
+    "question": "What is the output of this code?\n\n```js\nconsole.log(x);\nvar x = 10;\n```",
+    "options": [
+      "10",
+      "undefined",
+      "ReferenceError",
+      "null"
+    ],
+    "correctAnswer": "undefined",
+    "explanation": "Variable declarations (`var x`) are hoisted but assignments are not, so `x` is undefined at the time of `console.log`."
+  },
+  {
+    "question": "Which statement about closures is false?",
+    "options": [
+      "Closures can access variables from outer scopes",
+      "Closures help create private variables",
+      "Closures lose access to outer variables after the outer function finishes",
+      "Closures can be returned from functions"
+    ],
+    "correctAnswer": "Closures lose access to outer variables after the outer function finishes",
+    "explanation": "Closures retain access to outer variables even after the outer function finishes execution."
+  },
+  {
+    "question": "How do default parameters work in functions?",
+    "options": [
+      "Parameters must be passed, or an error occurs",
+      "Parameters take a default value if undefined is passed",
+      "Parameters have default values if no argument or undefined is passed",
+      "Parameters ignore default values"
+    ],
+    "correctAnswer": "Parameters have default values if no argument or undefined is passed",
+    "explanation": "Default parameters provide default values when no argument or `undefined` is passed."
+  },
+  {
+    "question": "What will the following function return?\n\n```js\nfunction f() {\n  return\n  {\n    key: 'value'\n  };\n}\nconsole.log(f());\n```",
+    "options": [
+      "{ key: 'value' }",
+      "undefined",
+      "null",
+      "SyntaxError"
+    ],
+    "correctAnswer": "undefined",
+    "explanation": "Due to automatic semicolon insertion, the `return` statement ends before the object, so the function returns `undefined`."
+  },
+  {
+    "question": "What does the 'this' keyword refer to inside a regular function?",
+    "options": [
+      "The global object",
+      "The function itself",
+      "The object that called the function",
+      "Undefined"
+    ],
+    "correctAnswer": "The object that called the function",
+    "explanation": "'this' inside a regular function refers to the caller object; in global scope, it refers to the global object."
+  },
+  {
+    "question": "What will this output?\n\n```js\nconst obj = {\n  x: 10,\n  getX() {\n    return this.x;\n  }\n};\nconst getX = obj.getX;\nconsole.log(getX());\n```",
+    "options": [
+      "10",
+      "undefined",
+      "Error",
+      "null"
+    ],
+    "correctAnswer": "undefined",
+    "explanation": "When detached, `this` refers to the global object (or undefined in strict mode), so `this.x` is undefined."
+  },
+  {
+    "question": "Which function syntax does NOT have its own 'this' context?",
+    "options": [
+      "Regular functions",
+      "Arrow functions",
+      "Method functions",
+      "Constructor functions"
+    ],
+    "correctAnswer": "Arrow functions",
+    "explanation": "Arrow functions inherit 'this' from their surrounding lexical context."
+  },
+  {
+    "question": "What will this code output?\n\n```js\nvar x = 1;\nfunction outer() {\n  var x = 2;\n  function inner() {\n    console.log(x);\n  }\n  inner();\n}\nouter();\n```",
+    "options": [
+      "1",
+      "2",
+      "undefined",
+      "ReferenceError"
+    ],
+    "correctAnswer": "2",
+    "explanation": "The inner function accesses the `x` defined in its outer function scope."
+  },
+  {
+    "question": "What is the output?\n\n```js\nconsole.log(typeof function() {});\n```",
+    "options": [
+      "'function'",
+      "'object'",
+      "'undefined'",
+      "'string'"
+    ],
+    "correctAnswer": "'function'",
+    "explanation": "Functions in JavaScript have the type 'function'."
+  },
+  {
+    "question": "What is a pure function?",
+    "options": [
+      "A function that does not modify external state and returns the same output for same input",
+      "A function that uses closures",
+      "A function that calls itself recursively",
+      "A function without parameters"
+    ],
+    "correctAnswer": "A function that does not modify external state and returns the same output for same input",
+    "explanation": "Pure functions have no side effects and return consistent outputs."
+  },
+  {
+    "question": "What will the following output?\n\n```js\n(function(){\n  let x = y = 5;\n})();\nconsole.log(typeof x);\nconsole.log(typeof y);\n```",
+    "options": [
+      "'undefined', 'number'",
+      "'number', 'undefined'",
+      "'undefined', 'undefined'",
+      "'number', 'number'"
+    ],
+    "correctAnswer": "'undefined', 'number'",
+    "explanation": "`x` is block scoped and not global; `y` becomes global as no var/let/const used."
+  },
+  {
+    "question": "What does the `bind` method do?",
+    "options": [
+      "Binds a function to a specific 'this' context and returns a new function",
+      "Immediately calls a function",
+      "Creates a new variable",
+      "Binds variables to functions"
+    ],
+    "correctAnswer": "Binds a function to a specific 'this' context and returns a new function",
+    "explanation": "`bind` fixes the 'this' context and returns a new bound function."
+  },
+  {
+    "question": "What is the output of this code?\n\n```js\nlet f = function() {\n  return this;\n};\nconsole.log(f());\n```",
+    "options": [
+      "Global object (or undefined in strict mode)",
+      "The function itself",
+      "Error",
+      "null"
+    ],
+    "correctAnswer": "Global object (or undefined in strict mode)",
+    "explanation": "In a regular function, 'this' defaults to the global object or undefined if strict mode is enabled."
+  },
+  {
+    "question": "Which is NOT a feature of arrow functions?",
+    "options": [
+      "No own 'this' binding",
+      "Cannot be used as constructors",
+      "Implicit return when without curly braces",
+      "Have their own 'arguments' object"
+    ],
+    "correctAnswer": "Have their own 'arguments' object",
+    "explanation": "Arrow functions do not have their own 'arguments' object."
+  },
+  {
+    "question": "What will this code log?\n\n```js\nfunction sayHi() {\n  console.log(this.name);\n}\nconst person = { name: 'Alice', sayHi };\nperson.sayHi();\n```",
+    "options": [
+      "'Alice'",
+      "undefined",
+      "null",
+      "Error"
+    ],
+    "correctAnswer": "'Alice'",
+    "explanation": "'this' refers to the calling object, so it logs 'Alice'."
+  },
+  {
+    "question": "What does the 'arguments' object represent in functions?",
+    "options": [
+      "An array of parameters",
+      "An array-like object containing all passed arguments",
+      "A map of variable names",
+      "A function's return value"
+    ],
+    "correctAnswer": "An array-like object containing all passed arguments",
+    "explanation": "'arguments' allows access to all arguments passed to the function."
+  },
+  {
+    "question": "What will happen when calling a function before its declaration with `var`?",
+    "options": [
+      "It works fine",
+      "Throws ReferenceError",
+      "Returns undefined",
+      "Function declarations are hoisted, but var is not a function"
+    ],
+    "correctAnswer": "Throws ReferenceError",
+    "explanation": "`var` declarations are hoisted but not initialized; functions declared with `var` cannot be called before initialization."
+  },
+  {
+    "question": "What is the result of this code?\n\n```js\nconst func = () => {\n  return arguments;\n};\nfunc(1, 2, 3);\n```",
+    "options": [
+      "An array of arguments",
+      "ReferenceError: arguments is not defined",
+      "undefined",
+      "Object with arguments"
+    ],
+    "correctAnswer": "ReferenceError: arguments is not defined",
+    "explanation": "Arrow functions do not have their own 'arguments' object."
+  },
+  {
+    "question": "What is the difference between parameters and arguments?",
+    "options": [
+      "Parameters are inputs to a function; arguments are values passed to the function",
+      "Arguments are inputs; parameters are outputs",
+      "They are the same",
+      "Parameters are the returned values"
+    ],
+    "correctAnswer": "Parameters are inputs to a function; arguments are values passed to the function",
+    "explanation": "Parameters define the inputs in function declaration; arguments are the actual values passed when calling."
+  },
+  {
+    "question": "How can you define a default parameter in a function?",
+    "options": [
+      "function f(x = 5) {}",
+      "function f(x ?: 5) {}",
+      "function f(x: 5) {}",
+      "function f(x == 5) {}"
+    ],
+    "correctAnswer": "function f(x = 5) {}",
+    "explanation": "Default parameters are set using assignment in the function signature."
+  },
+  {
+    "question": "What will the following code output?\n\n```js\nfunction outer() {\n  let count = 0;\n  return function() {\n    count++;\n    return count;\n  };\n}\nconst counter = outer();\nconsole.log(counter());\nconsole.log(counter());\n```",
+    "options": [
+      "1, 2",
+      "0, 1",
+      "undefined, undefined",
+      "Error"
+    ],
+    "correctAnswer": "1, 2",
+    "explanation": "This demonstrates closure where the inner function retains access to `count`."
+  },
+  {
+    "question": "Which keyword can be used to refer to the current function inside the function body?",
+    "options": [
+      "this",
+      "arguments.callee",
+      "self",
+      "that"
+    ],
+    "correctAnswer": "arguments.callee",
+    "explanation": "`arguments.callee` refers to the currently executing function but is discouraged in strict mode."
+  },
+  {
+    "question": "What will this code output?\n\n```js\n(function(x){\n  return (function(y){\n    console.log(x);\n  })(2);\n})(1);\n```",
+    "options": [
+      "1",
+      "2",
+      "undefined",
+      "Error"
+    ],
+    "correctAnswer": "1",
+    "explanation": "The inner function has access to the outer `x` due to closure."
+  },
+  {
+    "question": "What does the `call` method do in functions?",
+    "options": [
+      "Invokes the function with a specified `this` and arguments",
+      "Creates a new function",
+      "Binds `this` permanently",
+      "Delays function execution"
+    ],
+    "correctAnswer": "Invokes the function with a specified `this` and arguments",
+    "explanation": "`call` immediately calls a function with a specified `this` context."
+  },
+  {
+    "question": "How is a function expression different from a function declaration?",
+    "options": [
+      "Function declarations are hoisted; function expressions are not",
+      "Function expressions are hoisted; declarations are not",
+      "No difference",
+      "Only declarations can have names"
+    ],
+    "correctAnswer": "Function declarations are hoisted; function expressions are not",
+    "explanation": "Declarations are hoisted entirely, expressions are not hoisted."
+  },
+  {
+    "question": "What is lexical scoping?",
+    "options": [
+      "Scope is determined by the location in the source code",
+      "Scope is determined at runtime",
+      "Scope changes dynamically",
+      "Scope is global always"
+    ],
+    "correctAnswer": "Scope is determined by the location in the source code",
+    "explanation": "Lexical scoping means the scope is based on where functions and blocks are written in code."
+  },
+  {
+    "question": "Which method creates a new function with a given `this` value and arguments?",
+    "options": [
+      "call()",
+      "apply()",
+      "bind()",
+      "invoke()"
+    ],
+    "correctAnswer": "bind()",
+    "explanation": "`bind()` returns a new function with a specified `this` and optionally preset arguments."
+  },
+  {
+    "question": "What will happen if you forget to use the `new` keyword when calling a constructor function?",
+    "options": [
+      "Creates a new object anyway",
+      "Returns undefined",
+      "Binds `this` to global object or undefined",
+      "Throws error"
+    ],
+    "correctAnswer": "Binds `this` to global object or undefined",
+    "explanation": "Without `new`, `this` is not bound to a new instance, which can cause bugs."
+  },
+  {
+    "question": "What is the output?\n\n```js\nfunction foo() {\n  console.log(this);\n}\nfoo.call({a:1});\n```",
+    "options": [
+      "{a:1}",
+      "undefined",
+      "Window object",
+      "Error"
+    ],
+    "correctAnswer": "{a:1}",
+    "explanation": "`call` sets the `this` inside the function to the passed object."
+  }
+],
+
+  "miniTasks":[
+  {
+    "title": "Create a Counter Using Closure",
+    "description": "Complete the function so it returns another function that increments and returns a private counter variable each time it's called. This helps you understand closures and private state.",
+    "topic": "Closures",
+    "starterCode": "function createCounter() {\n  let count = 0;\n  // TODO: return a function that increments and returns count\n}",
+    "testCases": [
+      { "input": [], "expected": 1 },
+      { "input": [], "expected": 2 },
+      { "input": [], "expected": 3 }
+    ]
+  },
+  {
+    "title": "Sum All Arguments Using arguments Object",
+    "description": "Implement a function that sums all arguments passed using the `arguments` object. This reinforces understanding of the arguments object and variable number of parameters.",
+    "topic": "arguments object",
+    "starterCode": "function sumAll() {\n  // TODO: sum all arguments using arguments object\n}",
+    "testCases": [
+      { "input": [1, 2, 3], "expected": 6 },
+      { "input": [5], "expected": 5 },
+      { "input": [], "expected": 0 }
+    ]
+  },
+  {
+    "title": "Bind Function to Context",
+    "description": "Complete the function `bindTo` that binds the input function to the provided context, replicating basic `.bind()` behavior. Helps understand `this` binding.",
+    "topic": "this keyword & bind",
+    "starterCode": "function bindTo(fn, context) {\n  // TODO: return a new function bound to context\n}",
+    "testCases": [
+      { "input": ["function() { return this.a; }", { "a": 10 }], "expected": 10 }
+    ]
+  },
+  {
+    "title": "Recursive Factorial Function",
+    "description": "Write a recursive function that returns the factorial of a non-negative integer. This will improve your recursion understanding.",
+    "topic": "Recursion",
+    "starterCode": "function factorial(n) {\n  // TODO: implement factorial recursively\n}",
+    "testCases": [
+      { "input": [5], "expected": 120 },
+      { "input": [0], "expected": 1 }
+    ]
+  },
+  {
+    "title": "Function Returning Another Function",
+    "description": "Complete the outer function to return an inner function that returns the string 'Hello'. This teaches function returning functions and closures.",
+    "topic": "Closures",
+    "starterCode": "function outer() {\n  // TODO: return a function that returns 'Hello'\n}",
+    "testCases": [
+      { "input": [], "expected": "Hello" }
+    ]
+  },
+  {
+    "title": "Demonstrate this Keyword in Object Method",
+    "description": "Fix the method to return the object's name using `this`. This solidifies how `this` works in object methods.",
+    "topic": "this keyword",
+    "starterCode": "const obj = {\n  name: 'Alice',\n  getName() {\n    // TODO: return this.name\n  }\n};",
+    "testCases": [
+      { "input": [], "expected": "Alice" }
+    ]
+  },
+  {
+    "title": "Arrow Function and this Binding",
+    "description": "Explain and demonstrate how arrow functions do NOT bind their own `this`. Implement the arrow function to return undefined for `this.name`.",
+    "topic": "this keyword",
+    "starterCode": "const obj = {\n  name: 'Bob',\n  arrowFunc: () => {\n    // TODO: return this.name\n  }\n};",
+    "testCases": [
+      { "input": [], "expected": null }
+    ]
+  },
+  {
+    "title": "Implement Function Expression",
+    "description": "Complete the function expression that returns a greeting string. This differentiates function declarations from expressions.",
+    "topic": "Functions",
+    "starterCode": "const greet = function() {\n  // TODO: return 'Hello from function expression'\n};",
+    "testCases": [
+      { "input": [], "expected": "Hello from function expression" }
+    ]
+  },
+  {
+    "title": "Demonstrate Function Declaration",
+    "description": "Write a function declaration named `greet` that returns a greeting string.",
+    "topic": "Functions",
+    "starterCode": "// TODO: declare function greet\n",
+    "testCases": [
+      { "input": [], "expected": "Hello from function declaration" }
+    ]
+  },
+  {
+    "title": "Closure for Multiplier",
+    "description": "Create a function `makeMultiplier` that takes a number and returns a function multiplying its input by that number. Understand closures and parameters.",
+    "topic": "Closures",
+    "starterCode": "function makeMultiplier(multiplier) {\n  // TODO: return a function that multiplies input by multiplier\n}",
+    "testCases": [
+      { "input": [3, 10], "expected": 30 },
+      { "input": [5, 2], "expected": 10 }
+    ]
+  },
+  {
+    "title": "Scope Chain Demonstration",
+    "description": "Write nested functions that access variables from parent scopes, demonstrating scope chain.",
+    "topic": "Scope",
+    "starterCode": "function outer() {\n  let outerVar = 10;\n  function inner() {\n    // TODO: return outerVar\n  }\n  return inner();\n}",
+    "testCases": [
+      { "input": [], "expected": 10 }
+    ]
+  },
+  {
+    "title": "Shadowing Variable in Inner Scope",
+    "description": "Modify inner function to declare variable with same name and return it, showing variable shadowing.",
+    "topic": "Scope",
+    "starterCode": "function outer() {\n  let varName = 5;\n  function inner() {\n    // TODO: declare varName = 10 and return it\n  }\n  return inner();\n}",
+    "testCases": [
+      { "input": [], "expected": 10 }
+    ]
+  },
+  {
+    "title": "Use of let vs var in Scope",
+    "description": "Write code showing difference between `var` and `let` in block scope.",
+    "topic": "Scope",
+    "starterCode": "// TODO: declare var x=1 inside block and let y=2 inside block and return them outside block\n",
+    "testCases": [
+      { "input": [], "expected": "var is function scoped, let is block scoped" }
+    ]
+  },
+  {
+    "title": "Recursive Sum of Array Elements",
+    "description": "Implement recursive function to return sum of elements in an array. This strengthens recursion and array handling.",
+    "topic": "Recursion",
+    "starterCode": "function recursiveSum(arr) {\n  // TODO: return sum of array elements recursively\n}",
+    "testCases": [
+      { "input": [[1, 2, 3]], "expected": 6 },
+      { "input": [[]], "expected": 0 }
+    ]
+  },
+  {
+    "title": "Create Immediately Invoked Function Expression (IIFE)",
+    "description": "Write an IIFE that returns 'IIFE executed'. Helps understand IIFE syntax and execution.",
+    "topic": "Functions",
+    "starterCode": "// TODO: create an IIFE that returns 'IIFE executed'\n",
+    "testCases": [
+      { "input": [], "expected": "IIFE executed" }
+    ]
+  },
+  {
+    "title": "Function Default Parameters",
+    "description": "Implement function with a default parameter value and return the parameter.",
+    "topic": "Functions",
+    "starterCode": "function greet(name = 'Guest') {\n  // TODO: return greeting with name\n}",
+    "testCases": [
+      { "input": ["Alice"], "expected": "Hello, Alice" },
+      { "input": [], "expected": "Hello, Guest" }
+    ]
+  },
+  {
+    "title": "Rest Parameters to Sum Numbers",
+    "description": "Use rest parameters to sum any number of arguments passed.",
+    "topic": "Functions",
+    "starterCode": "function sum(...nums) {\n  // TODO: return sum of nums\n}",
+    "testCases": [
+      { "input": [1, 2, 3], "expected": 6 },
+      { "input": [5], "expected": 5 }
+    ]
+  },
+  {
+    "title": "Arrow Function Syntax",
+    "description": "Rewrite function as an arrow function that returns square of a number.",
+    "topic": "Functions",
+    "starterCode": "const square = (n) => {\n  // TODO: return square of n\n};",
+    "testCases": [
+      { "input": [4], "expected": 16 },
+      { "input": [0], "expected": 0 }
+    ]
+  },
+  {
+    "title": "Demonstrate call() Method",
+    "description": "Use `call` to invoke a function with a given `this` context and argument.",
+    "topic": "this keyword",
+    "starterCode": "function sayName(greeting) {\n  // TODO: return greeting + ' ' + this.name\n}\nconst obj = { name: 'Jane' };\n// TODO: call sayName with obj as this and 'Hi' as argument",
+    "testCases": [
+      { "input": [], "expected": "Hi Jane" }
+    ]
+  },
+  {
+    "title": "Demonstrate apply() Method",
+    "description": "Use `apply` to invoke a function with a given `this` and arguments array.",
+    "topic": "this keyword",
+    "starterCode": "function sum(a, b) {\n  // TODO: return sum of a and b\n}\nconst nums = [5, 10];\n// TODO: apply sum with nums as arguments",
+    "testCases": [
+      { "input": [], "expected": 15 }
+    ]
+  },
+  {
+    "title": "Function Constructor",
+    "description": "Create a function using the Function constructor that adds two numbers.",
+    "topic": "Functions",
+    "starterCode": "// TODO: create function add using Function constructor\n",
+    "testCases": [
+      { "input": [2, 3], "expected": 5 }
+    ]
+  }
+]
+
+}
