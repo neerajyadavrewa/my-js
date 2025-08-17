@@ -1,0 +1,510 @@
+{
+  "id": "5",
+  "title": "Level 5: Async & APIs",
+  "description": "Deep dive into asynchronous patterns, promises, async/await, and API communication.",
+  "topics": [
+    "Callbacks & Callback Hell",
+    "Promises (then/catch/finally)",
+    "Async/Await Syntax",
+    "Fetch API",
+    "HTTP Methods (GET/POST/PUT/DELETE)",
+    "JSON Handling",
+    "Error Handling (try/catch)",
+    "Axios Library",
+    "WebSockets Basics",
+    "setTimeout/setInterval",
+    "Microtasks vs Macrotasks",
+    "Promise Combinators (all/allSettled/any/race)",
+    "AbortController",
+    "Web Workers",
+    "Server-Sent Events",
+    "CORS & Security"
+  ],
+  "notes": [
+    {
+      "title": "Callback Hell Problem",
+      "content": "Nested callbacks create unmaintainable 'pyramid' code.",
+      "codeSnippet": "getUser(userId, (user) => {\n  getPosts(user.id, (posts) => {\n    getComments(posts[0].id, (comments) => {\n      // More nesting...\n    });\n  });\n});",
+      "deepDive": "Leads to error-prone code. Solved by promises or async/await."
+    },
+    {
+      "title": "Promise Fundamentals",
+      "content": "Promises represent eventual completion of async operations.",
+      "codeSnippet": "const promise = new Promise((resolve, reject) => {\n  // Async operation\n  if(success) resolve(data);\n  else reject(error);\n});\n\npromise\n  .then(data => console.log(data))\n  .catch(err => console.error(err));",
+      "deepDive": "Promises have 3 states: pending, fulfilled, rejected. Thenable chain avoids nesting."
+    },
+    {
+      "title": "Async/Await Syntax",
+      "content": "Syntactic sugar for working with promises.",
+      "codeSnippet": "async function fetchData() {\n  try {\n    const response = await fetch('/api/data');\n    return await response.json();\n  } catch (error) {\n    console.error('Fetch failed:', error);\n  }\n}",
+      "deepDive": "Async functions always return promises. Await pauses execution until promise settles."
+    },
+    {
+      "title": "Fetch API Deep Dive",
+      "content": "Modern replacement for XMLHttpRequest.",
+      "codeSnippet": "fetch('https://api.example.com/data', {\n  method: 'POST',\n  headers: { 'Content-Type': 'application/json' },\n  body: JSON.stringify({ key: 'value' })\n})\n  .then(response => {\n    if (!response.ok) throw new Error('HTTP error');\n    return response.json();\n  })",
+      "deepDive": "Fetch doesn't reject on HTTP errors (404/500). Always check response.ok. No cookies by default."
+    },
+    {
+      "title": "Promise Combinators",
+      "content": "Methods for handling multiple promises.",
+      "codeSnippet": "// Wait for all promises\nPromise.all([promise1, promise2]);\n\n// Wait for all to settle\nPromise.allSettled([promise1, promise2]);\n\n// First to fulfill\nPromise.any([promise1, promise2]);\n\n// First to settle\nPromise.race([promise1, promise2]);",
+      "deepDive": "Use allSettled when you need all results regardless of failures. any ignores rejections until all fail."
+    },
+    {
+      "title": "Microtasks vs Macrotasks",
+      "content": "JavaScript event loop prioritization.",
+      "codeSnippet": "console.log('Script start');\n\nsetTimeout(() => console.log('Timeout'), 0);\n\nPromise.resolve()\n  .then(() => console.log('Promise'));\n\nconsole.log('Script end');\n\n// Output order: \n// Script start → Script end → Promise → Timeout",
+      "deepDive": "Microtasks (promises, queueMicrotask) run before next render. Macrotasks (setTimeout, events) run after."
+    },
+    {
+      "title": "AbortController",
+      "content": "Cancel fetch requests or other async tasks.",
+      "codeSnippet": "const controller = new AbortController();\n\nfetch('/api', { signal: controller.signal })\n  .catch(err => {\n    if (err.name === 'AbortError') {\n      console.log('Request aborted');\n    }\n  });\n\n// Cancel after 5s\nsetTimeout(() => controller.abort(), 5000);",
+      "deepDive": "Essential for canceling unnecessary requests (e.g., component unmount). Works with axios too."
+    },
+    {
+      "title": "Web Workers",
+      "content": "Run CPU-intensive tasks in background threads.",
+      "codeSnippet": "// main.js\nconst worker = new Worker('worker.js');\nworker.postMessage({ data: heavyInput });\nworker.onmessage = (e) => {\n  console.log('Result:', e.data);\n};\n\n// worker.js\nself.onmessage = (e) => {\n  const result = processData(e.data);\n  self.postMessage(result);\n};",
+      "deepDive": "Workers have no DOM access. Communicate via postMessage. Ideal for image processing, large calculations."
+    },
+    {
+      "title": "WebSocket Connections",
+      "content": "Full-duplex communication channels over TCP.",
+      "codeSnippet": "const socket = new WebSocket('wss://echo.websocket.org');\n\nsocket.addEventListener('open', () => {\n  socket.send('Hello Server!');\n});\n\nsocket.addEventListener('message', (event) => {\n  console.log('Received:', event.data);\n});",
+      "deepDive": "Persistent low-latency connection. Perfect for chat apps, real-time dashboards. Handle reconnects gracefully."
+    },
+    {
+      "title": "Server-Sent Events (SSE)",
+      "content": "Simple unidirectional server-to-client streaming.",
+      "codeSnippet": "const eventSource = new EventSource('/updates');\n\neventSource.onmessage = (event) => {\n  console.log('Update:', event.data);\n};\n\neventSource.onerror = () => {\n  console.error('SSE error');\n};",
+      "deepDive": "Auto-reconnects. Text-based only. Simpler alternative to WebSockets for push notifications."
+    },
+    {
+      "title": "CORS Fundamentals",
+      "content": "Cross-Origin Resource Sharing security mechanism.",
+      "codeSnippet": "// Server response headers\nAccess-Control-Allow-Origin: *\nAccess-Control-Allow-Methods: GET, POST\nAccess-Control-Allow-Headers: Content-Type",
+      "deepDive": "Browser blocks cross-origin requests without proper headers. Preflight requests (OPTIONS) for non-simple requests."
+    },
+    {
+      "title": "Error Handling Strategies",
+      "content": "Gracefully handle async errors.",
+      "codeSnippet": "async function loadData() {\n  try {\n    const data = await fetchData();\n  } catch (err) {\n    if (err instanceof TypeError) {\n      // Network error\n    } else if (err.response?.status === 404) {\n      // API 404\n    } else {\n      // Unexpected error\n    }\n  }\n}",
+      "deepDive": "Always catch promise rejections. Distinguish network errors from API errors. Global error handlers."
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "What does `await` do?",
+      "options": [
+        "Pauses execution until promise settles",
+        "Cancels a promise",
+        "Runs code synchronously",
+        "Converts sync code to async"
+      ],
+      "correctAnswer": "Pauses execution until promise settles",
+      "explanation": "`await` can only be used inside async functions."
+    },
+    {
+      "question": "Which HTTP method updates data?",
+      "options": ["GET", "POST", "PUT", "DELETE"],
+      "correctAnswer": "PUT",
+      "explanation": "PUT replaces resource data; POST creates new resources."
+    },
+    {
+      "question": "How to handle multiple promises simultaneously?",
+      "options": [
+        "Promise.race()",
+        "Promise.some()",
+        "Promise.all()",
+        "await sequential"
+      ],
+      "correctAnswer": "Promise.all()",
+      "explanation": "Promise.all() resolves when all promises resolve or rejects if any fail."
+    },
+    {
+      "question": "What is callback hell?",
+      "options": [
+        "Too many callbacks",
+        "Nested callbacks creating pyramid code",
+        "Callbacks in loops",
+        "Async callbacks only"
+      ],
+      "correctAnswer": "Nested callbacks creating pyramid code",
+      "explanation": "Results in unreadable and hard-to-maintain code structures."
+    },
+    {
+      "question": "What does fetch() return?",
+      "options": [
+        "JSON data",
+        "Response object",
+        "HTML string",
+        "Request object"
+      ],
+      "correctAnswer": "Response object",
+      "explanation": "Requires calling .json(), .text(), etc. to extract data."
+    },
+    {
+      "question": "How to cancel a fetch request?",
+      "options": [
+        "fetch.cancel()",
+        "Using AbortController",
+        "Request.abort()",
+        "Promise.cancel()"
+      ],
+      "correctAnswer": "Using AbortController",
+      "explanation": "Pass signal to fetch options, call abort() when needed."
+    },
+    {
+      "question": "Which runs first: setTimeout(fn, 0) or Promise.resolve().then(fn)?",
+      "options": [
+        "setTimeout",
+        "Promise",
+        "Random order",
+        "Depends on browser"
+      ],
+      "correctAnswer": "Promise",
+      "explanation": "Promise callbacks (microtasks) run before setTimeout (macrotask)."
+    },
+    {
+      "question": "What is WebSocket?",
+      "options": [
+        "HTTP persistent connection",
+        "Full-duplex communication protocol",
+        "One-way server push",
+        "RPC framework"
+      ],
+      "correctAnswer": "Full-duplex communication protocol",
+      "explanation": "Bi-directional real-time communication over single TCP connection."
+    },
+    {
+      "question": "What triggers 'unhandledrejection' event?",
+      "options": [
+        "Uncaught sync error",
+        "Unhandled promise rejection",
+        "Failed fetch request",
+        "Network error"
+      ],
+      "correctAnswer": "Unhandled promise rejection",
+      "explanation": "Global handler for promises without .catch() or try/catch in async functions."
+    },
+    {
+      "question": "What is CORS?",
+      "options": [
+        "Cross-Origin Request Standard",
+        "Browser security feature",
+        "Data encoding format",
+        "Promise utility"
+      ],
+      "correctAnswer": "Browser security feature",
+      "explanation": "Blocks web pages from making requests to different domains without permission."
+    },
+    {
+      "question": "How to send cookies with fetch?",
+      "options": [
+        "credentials: 'include'",
+        "cookies: true",
+        "withCredentials: true",
+        "sendCookies: true"
+      ],
+      "correctAnswer": "credentials: 'include'",
+      "explanation": "Fetch option to send cookies and HTTP authentication."
+    },
+    {
+      "question": "What does Promise.any() do?",
+      "options": [
+        "First promise to fulfill",
+        "All promises to settle",
+        "First promise to resolve",
+        "Any promise to reject"
+      ],
+      "correctAnswer": "First promise to fulfill",
+      "explanation": "Resolves when any promise fulfills, rejects only if all reject."
+    },
+    {
+      "question": "What is a microtask?",
+      "options": [
+        "Small JavaScript function",
+        "Task with high priority in event loop",
+        "Web Worker task",
+        "Network request"
+      ],
+      "correctAnswer": "Task with high priority in event loop",
+      "explanation": "Executed after current task and before next rendering (e.g., promise callbacks)."
+    },
+    {
+      "question": "How to run async code in parallel?",
+      "options": [
+        "Use Promise.all()",
+        "Sequential await",
+        "Nested promises",
+        "Web Workers only"
+      ],
+      "correctAnswer": "Use Promise.all()",
+      "explanation": "Executes promises concurrently and waits for all results."
+    },
+    {
+      "question": "What is the purpose of AbortController?",
+      "options": [
+        "Cancel async operations",
+        "Abort JavaScript execution",
+        "Stop event propagation",
+        "Pause promises"
+      ],
+      "correctAnswer": "Cancel async operations",
+      "explanation": "Specifically designed for fetch/axios but can adapt to other async tasks."
+    },
+    {
+      "question": "What does response.json() return?",
+      "options": [
+        "JavaScript object",
+        "JSON string",
+        "Promise resolving to object",
+        "ArrayBuffer"
+      ],
+      "correctAnswer": "Promise resolving to object",
+      "explanation": "Async method since response body streaming is asynchronous."
+    },
+    {
+      "question": "How to handle WebSocket errors?",
+      "options": [
+        "socket.onerror",
+        "socket.catch()",
+        "try/catch around send()",
+        "WebSockets never error"
+      ],
+      "correctAnswer": "socket.onerror",
+      "explanation": "WebSocket has onerror event handler for connection issues."
+    },
+    {
+      "question": "What is the difference between PUT and PATCH?",
+      "options": [
+        "PUT replaces entire resource, PATCH partial update",
+        "PATCH is idempotent, PUT is not",
+        "PUT for create, PATCH for update",
+        "No difference"
+      ],
+      "correctAnswer": "PUT replaces entire resource, PATCH partial update",
+      "explanation": "PUT requires full resource representation, PATCH sends only changes."
+    },
+    {
+      "question": "Which is NOT a promise state?",
+      "options": [
+        "Pending",
+        "Fulfilled",
+        "Settled",
+        "Resolved"
+      ],
+      "correctAnswer": "Resolved",
+      "explanation": "Official states: pending, fulfilled, rejected. 'Settled' means not pending."
+    },
+    {
+      "question": "What is the purpose of finally()?",
+      "options": [
+        "Run after promise settles",
+        "Run only on success",
+        "Run instead of catch",
+        "Final promise in chain"
+      ],
+      "correctAnswer": "Run after promise settles",
+      "explanation": "Executes regardless of fulfillment or rejection. Useful for cleanup."
+    }
+  ],
+  "miniTasks": [
+    {
+      "title": "Fetch Simulator",
+      "description": "Simulate fetch response with delay",
+      "topic": "Fetch API",
+      "starterCode": "function mockFetch(url) {\n  // Return promise\n}",
+      "testCases": [
+        {
+          "input": ["/data"],
+          "expected": "Promise resolving after 100ms"
+        }
+      ]
+    },
+    {
+      "title": "Promise Timeout",
+      "description": "Reject promise if it takes too long",
+      "topic": "AbortController",
+      "starterCode": "function timeoutPromise(promise, ms) {\n  // Return promise\n}",
+      "testCases": [
+        {
+          "input": ["new Promise(r => setTimeout(r, 200))", 100],
+          "expected": "Error: Rejected promise"
+        }
+      ]
+    },
+    {
+      "title": "Retry Mechanism",
+      "description": "Retry failed API call up to 3 times",
+      "topic": "Error Handling",
+      "starterCode": "async function retry(fn, retries) {\n  // Return fn result\n}",
+      "testCases": [
+        {
+          "input": ["() => Promise.reject('error')", 3],
+          "expected": "Rejected after 3 attempts"
+        }
+      ]
+    },
+    {
+      "title": "Concurrent Requests",
+      "description": "Execute multiple requests with concurrency limit",
+      "topic": "Promise Combinators",
+      "starterCode": "async function concurrentRequests(urls, limit) {\n  // Return results array\n}",
+      "testCases": [
+        {
+          "input": [["/1", "/2"], 2],
+          "expected": "Array of responses"
+        }
+      ]
+    },
+    {
+      "title": "Promise Queue",
+      "description": "Process promises sequentially",
+      "topic": "Async Patterns",
+      "starterCode": "class PromiseQueue {\n  constructor() {\n    this.queue = [];\n  }\n  add(promiseFunc) {\n    // Add to queue\n  }\n}",
+      "testCases": [
+        {
+          "input": "3 async functions",
+          "expected": "Executed in order"
+        }
+      ]
+    },
+    {
+      "title": "Web Worker Simulator",
+      "description": "Process heavy computation off-thread",
+      "topic": "Web Workers",
+      "starterCode": "function runInWorker(fn) {\n  // Return promise with result\n}",
+      "testCases": [
+        {
+          "input": ["() => 5*5"],
+          "expected": 25
+        }
+      ]
+    },
+    {
+      "title": "WebSocket Simulator",
+      "description": "Simulate WebSocket message handling",
+      "topic": "WebSockets",
+      "starterCode": "function createWebSocketSimulator() {\n  return {\n    send(msg) {},\n    onMessage(cb) {}\n  };\n}",
+      "testCases": [
+        {
+          "input": ["Hello"],
+          "expected": "Message handled"
+        }
+      ]
+    },
+    {
+      "title": "CORS Header Checker",
+      "description": "Validate required CORS headers",
+      "topic": "CORS",
+      "starterCode": "function hasCORSHeaders(headers) {\n  // Return boolean\n}",
+      "testCases": [
+        {
+          "input": [{"Access-Control-Allow-Origin": "*"}],
+          "expected": true
+        }
+      ]
+    },
+    {
+      "title": "JWT Decoder",
+      "description": "Decode JWT payload",
+      "topic": "API Security",
+      "starterCode": "function decodeJWT(token) {\n  // Return payload object\n}",
+      "testCases": [
+        {
+          "input": ["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"],
+          "expected": {"sub": "1234567890", "name": "John Doe", "iat": 1516239022}
+        }
+      ]
+    },
+    {
+      "title": "API Cache",
+      "description": "Implement caching layer for API calls",
+      "topic": "Performance",
+      "starterCode": "function createAPICache() {\n  const cache = new Map();\n  return async (key, fn) => {\n    // Return cached or fresh data\n  };\n}",
+      "testCases": [
+        {
+          "input": ["user", "() => Promise.resolve('data')"],
+          "expected": "data (cached on second call)"
+        }
+      ]
+    },
+    {
+      "title": "Exponential Backoff",
+      "description": "Implement retry with increasing delays",
+      "topic": "Error Handling",
+      "starterCode": "async function exponentialBackoff(fn, retries) {\n  // Return fn result\n}",
+      "testCases": [
+        {
+          "input": ["() => Promise.reject('err')", 3],
+          "expected": "Rejected after 3 attempts"
+        }
+      ]
+    },
+    {
+      "title": "Safe JSON Parse",
+      "description": "Parse JSON without throwing errors",
+      "topic": "JSON Handling",
+      "starterCode": "function safeJSONParse(str) {\n  // Return object or null\n}",
+      "testCases": [
+        {
+          "input": ["{'invalid': json}"],
+          "expected": null
+        }
+      ]
+    },
+    {
+      "title": "Async Batch Processor",
+      "description": "Process array items in batches",
+      "topic": "Async Patterns",
+      "starterCode": "async function processBatch(items, processFn, batchSize) {\n  // Return processed results\n}",
+      "testCases": [
+        {
+          "input": [[1, 2, 3, 4], "x => Promise.resolve(x*2)", 2],
+          "expected": [2, 4, 6, 8]
+        }
+      ]
+    },
+    {
+      "title": "Promise Cancellation",
+      "description": "Make promise cancellable",
+      "topic": "AbortController",
+      "starterCode": "function cancellablePromise(promise) {\n  return {\n    promise,\n    cancel() {}\n  };\n}",
+      "testCases": [
+        {
+          "input": ["new Promise(r => setTimeout(r, 1000))"],
+          "expected": "Cancel method exists"
+        }
+      ]
+    },
+    {
+      "title": "WebSocket Reconnect",
+      "description": "Implement auto-reconnect logic",
+      "topic": "WebSockets",
+      "starterCode": "function createReconnectingSocket(url) {\n  return {\n    connect() {},\n    onClose(cb) {}\n  };\n}",
+      "testCases": [
+        {
+          "input": ["wss://test"],
+          "expected": "Auto-reconnect on close"
+        }
+      ]
+    },
+    {
+      "title": "Binary Data Converter",
+      "description": "Convert ArrayBuffer to JSON",
+      "topic": "Data Handling",
+      "starterCode": "function bufferToJSON(buffer) {\n  // Return parsed object\n}",
+      "testCases": [
+        {
+          "input": ["new ArrayBuffer(16)"],
+          "expected": {}
+        }
+      ]
+    }
+  ]
+
+
+}

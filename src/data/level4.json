@@ -1,0 +1,458 @@
+{
+  "id": "4",
+  "title": "Level 4: DOM & Events",
+  "description": "Comprehensive guide to DOM manipulation, event handling, traversal, and dynamic content creation.",
+  "topics": [
+    "DOM Tree Structure",
+    "Element Selection (querySelector, getElementById)",
+    "DOM Traversal (parent/child/sibling nodes)",
+    "Element Creation/Removal",
+    "Attribute/Class Manipulation",
+    "Event Listeners (addEventListener)",
+    "Event Propagation (Bubbling/Capturing)",
+    "Event Delegation",
+    "Form Handling & Validation",
+    "Dynamic Styling (CSS via JS)",
+    "Working with Data Attributes",
+    "Keyboard/Mouse Events",
+    "Custom Events",
+    "MutationObserver"
+  ],
+  "notes": [
+    {
+      "title": "DOM Tree Fundamentals",
+      "content": "The DOM represents HTML as a tree of objects where each element is a 'node'.",
+      "codeSnippet": "document.documentElement; // Root node\nconsole.log(document.body.childNodes);",
+      "deepDive": "Nodes include elements (nodeType=1), text (nodeType=3), and comments. Use parentNode, childNodes, and sibling properties for traversal."
+    },
+    {
+      "title": "Element Selection Methods",
+      "content": "Different methods to select DOM elements with varying performance characteristics.",
+      "codeSnippet": "// ID selection (fastest)\nconst el = document.getElementById('header');\n// CSS selector (flexible)\nconst firstDiv = document.querySelector('div');",
+      "deepDive": "getElementById is fastest. querySelectorAll returns static NodeList. Prefer IDs for frequent access."
+    },
+    {
+      "title": "Element Creation & Insertion",
+      "content": "Creating new DOM elements and inserting them efficiently.",
+      "codeSnippet": "const newDiv = document.createElement('div');\nnewDiv.textContent = 'Hello DOM!';\ndocument.body.appendChild(newDiv);\n// Using insertAdjacentHTML\ndocument.body.insertAdjacentHTML('beforeend', '<p>Fast insertion</p>');",
+      "deepDive": "innerHTML causes re-parsing. DocumentFragment allows batch DOM operations without reflow."
+    },
+    {
+      "title": "Event Bubbling vs Capturing",
+      "content": "Events propagate outward (bubbling) or inward (capturing).",
+      "codeSnippet": "elem.addEventListener('click', handler, true); // Capturing phase\nel.addEventListener('click', handler); // Bubbling (default)",
+      "deepDive": "Use event.stopPropagation() to halt propagation. Bubbling enables event delegation."
+    },
+    {
+      "title": "Event Delegation Pattern",
+      "content": "Attach events to parent elements to handle dynamic children.",
+      "codeSnippet": "document.getElementById('list').addEventListener('click', (e) => {\n  if(e.target.matches('li')) console.log('List item clicked!');\n  if(e.target.closest('.btn')) handleButton(e.target);\n});",
+      "deepDive": "Reduces memory footprint. Works for dynamically added elements. Use element.closest() for nested targets."
+    },
+    {
+      "title": "Form Validation Techniques",
+      "content": "Client-side validation before form submission.",
+      "codeSnippet": "formEl.addEventListener('submit', (e) => {\n  if(!inputEl.checkValidity()) {\n    e.preventDefault();\n    showError('Invalid input');\n  }\n});",
+      "deepDive": "Combine HTML5 validation (required, pattern) with JavaScript. Use Constraint Validation API."
+    },
+    {
+      "title": "Dynamic Styling with JavaScript",
+      "content": "Modify element styles programmatically.",
+      "codeSnippet": "// Inline styles\nelement.style.backgroundColor = 'red';\n// CSS class toggle\nelement.classList.toggle('active');",
+      "deepDive": "Prefer class toggling over inline styles for maintainability. Use getComputedStyle() to read final styles."
+    },
+    {
+      "title": "Data Attributes Usage",
+      "content": "Store custom data in HTML attributes.",
+      "codeSnippet": "<div data-user-id=\"123\" data-role=\"admin\"></div>\n// JavaScript access\nconsole.log(el.dataset.userId); // '123'",
+      "deepDive": "dataset property converts kebab-case to camelCase. Great for component configuration."
+    },
+    {
+      "title": "Keyboard Event Handling",
+      "content": "Respond to keyboard interactions.",
+      "codeSnippet": "document.addEventListener('keydown', (e) => {\n  if(e.key === 'Escape') closeModal();\n  if(e.ctrlKey && e.key === 's') saveForm();\n});",
+      "deepDive": "Use key instead of keyCode for modern browsers. Consider accessibility (tabindex, focus management)."
+    },
+    {
+      "title": "Custom Event Creation",
+      "content": "Create and dispatch custom events.",
+      "codeSnippet": "const event = new CustomEvent('itemAdded', {\n  detail: { productId: 456 }\n});\ndocument.dispatchEvent(event);",
+      "deepDive": "Enables decoupled communication between components. Use bubbles: true for propagation."
+    },
+    {
+      "title": "MutationObserver API",
+      "content": "Observe DOM changes dynamically.",
+      "codeSnippet": "const observer = new MutationObserver((mutations) => {\n  mutations.forEach(mutation => {\n    if(mutation.type === 'childList') console.log('DOM changed!');\n  });\n});\nobserver.observe(document.body, { childList: true });",
+      "deepDive": "Efficient alternative to polling. Use for tracking dynamic content changes."
+    },
+    {
+      "title": "Performance Optimization",
+      "content": "Techniques for efficient DOM manipulation.",
+      "codeSnippet": "// Batch DOM changes\nconst fragment = document.createDocumentFragment();\nitems.forEach(item => {\n  const li = document.createElement('li');\n  li.textContent = item;\n  fragment.appendChild(li);\n});\nlistEl.appendChild(fragment);",
+      "deepDive": "Minimize layout thrashing. Use requestAnimationFrame for visual updates. Debounce scroll/resize handlers."
+    }
+  ],
+  "mcqs": [
+    {
+      "question": "Which method selects the first <div> in the DOM?",
+      "options": [
+        "document.querySelector('div')",
+        "document.getElementByTag('div')",
+        "document.getElementById('div')",
+        "document.getElementsByClassName('div')[0]"
+      ],
+      "correctAnswer": "document.querySelector('div')",
+      "explanation": "querySelector uses CSS selectors to return the first match."
+    },
+    {
+      "question": "What does `event.preventDefault()` do?",
+      "options": [
+        "Stops event propagation",
+        "Prevents default browser behavior (e.g., form submission)",
+        "Removes the event listener",
+        "Cancels event creation"
+      ],
+      "correctAnswer": "Prevents default browser behavior (e.g., form submission)",
+      "explanation": "Useful for custom form handling or disabling anchor navigation."
+    },
+    {
+      "question": "How do you add 'active' class to an element?",
+      "options": [
+        "element.addClass('active')",
+        "element.class = 'active'",
+        "element.classList.add('active')",
+        "element.setAttribute('class', 'active')"
+      ],
+      "correctAnswer": "element.classList.add('active')",
+      "explanation": "classList provides methods to add/remove/toggle classes."
+    },
+    {
+      "question": "What is event delegation?",
+      "options": [
+        "Creating custom events",
+        "Handling events at parent level for dynamic children",
+        "Delegating events to web workers",
+        "Sending events to server"
+      ],
+      "correctAnswer": "Handling events at parent level for dynamic children",
+      "explanation": "Leverages event bubbling to handle events from multiple elements with single listener."
+    },
+    {
+      "question": "Which property contains event target?",
+      "options": [
+        "event.source",
+        "event.element",
+        "event.target",
+        "event.currentTarget"
+      ],
+      "correctAnswer": "event.target",
+      "explanation": "event.target is the element that triggered the event, while currentTarget is where listener is attached."
+    },
+    {
+      "question": "How to remove all children from a DOM element?",
+      "options": [
+        "element.children = []",
+        "element.innerHTML = ''",
+        "element.removeChildren()",
+        "while(element.firstChild) element.removeChild(element.firstChild)"
+      ],
+      "correctAnswer": "while(element.firstChild) element.removeChild(element.firstChild)",
+      "explanation": "Most efficient method. innerHTML='' also works but may cause memory leaks with event handlers."
+    },
+    {
+      "question": "What does insertAdjacentHTML('beforeend', html) do?",
+      "options": [
+        "Inserts before element",
+        "Inserts as first child",
+        "Appends as last child",
+        "Replaces element content"
+      ],
+      "correctAnswer": "Appends as last child",
+      "explanation": "Positions: 'beforebegin', 'afterbegin', 'beforeend', 'afterend'. Faster than innerHTML for appending."
+    },
+    {
+      "question": "How to get next sibling element?",
+      "options": [
+        "element.nextSibling",
+        "element.nextElementSibling",
+        "element.sibling(+1)",
+        "element.getSibling('next')"
+      ],
+      "correctAnswer": "element.nextElementSibling",
+      "explanation": "nextSibling returns any node (including text), nextElementSibling returns only element nodes."
+    },
+    {
+      "question": "What triggers DOMContentLoaded event?",
+      "options": [
+        "When images finish loading",
+        "When DOM is fully parsed",
+        "When page is visible",
+        "When all resources load"
+      ],
+      "correctAnswer": "When DOM is fully parsed",
+      "explanation": "Fires after HTML is completely parsed, without waiting for stylesheets/images."
+    },
+    {
+      "question": "How to detect clicks outside an element?",
+      "options": [
+        "document.addEventListener('click', (e) => !el.contains(e.target))",
+        "el.addEventListener('outsideclick', handler)",
+        "window.checkClickOutside(el)",
+        "CSS :outside pseudo-class"
+      ],
+      "correctAnswer": "document.addEventListener('click', (e) => !el.contains(e.target))",
+      "explanation": "Check if event target is outside element using Node.contains()."
+    },
+    {
+      "question": "What is MutationObserver used for?",
+      "options": [
+        "Observing CSS animations",
+        "Detecting DOM changes",
+        "Listening to HTTP mutations",
+        "Watching JavaScript object changes"
+      ],
+      "correctAnswer": "Detecting DOM changes",
+      "explanation": "Efficiently observe additions/removals of DOM nodes or attribute changes."
+    },
+    {
+      "question": "How to make element draggable?",
+      "options": [
+        "element.setAttribute('draggable', 'true')",
+        "element.draggable = true",
+        "CSS property: draggable: yes",
+        "element.enableDrag()"
+      ],
+      "correctAnswer": "element.setAttribute('draggable', 'true')",
+      "explanation": "Requires HTML attribute. Implement dragstart/dragover/drop handlers for full functionality."
+    },
+    {
+      "question": "What does event.stopImmediatePropagation() do?",
+      "options": [
+        "Stops all events on page",
+        "Prevents other listeners on same element",
+        "Stops event after current handler",
+        "Pauses event temporarily"
+      ],
+      "correctAnswer": "Prevents other listeners on same element",
+      "explanation": "stopPropagation() stops bubbling. stopImmediatePropagation() also prevents other listeners on same element."
+    },
+    {
+      "question": "How to clone a DOM element?",
+      "options": [
+        "element.copy()",
+        "element.clone()",
+        "element.cloneNode(true)",
+        "document.clone(element)"
+      ],
+      "correctAnswer": "element.cloneNode(true)",
+      "explanation": "Pass true to deep clone with all descendants. False clones only the element itself."
+    },
+    {
+      "question": "What is passive event listener?",
+      "options": [
+        "Listener that never calls preventDefault()",
+        "Low-priority event handler",
+        "Listener for passive elements",
+        "Deprecated event type"
+      ],
+      "correctAnswer": "Listener that never calls preventDefault()",
+      "explanation": "Improves scroll performance. Declare with { passive: true } in addEventListener options."
+    },
+    {
+      "question": "How to check if element has class?",
+      "options": [
+        "element.hasClass('active')",
+        "element.classList.contains('active')",
+        "element.classes.includes('active')",
+        "element.className === 'active'"
+      ],
+      "correctAnswer": "element.classList.contains('active')",
+      "explanation": "classList API provides contains(), add(), remove(), and toggle() methods."
+    },
+    {
+      "question": "What triggers input event?",
+      "options": [
+        "Only on form submission",
+        "When element value changes",
+        "On focus/blur",
+        "When content is selected"
+      ],
+      "correctAnswer": "When element value changes",
+      "explanation": "Fires immediately after value change (unlike change event which fires on blur)."
+    },
+    {
+      "question": "How to get element's dimensions?",
+      "options": [
+        "element.width/height",
+        "element.getBoundingClientRect()",
+        "element.measure()",
+        "CSS.getDimensions(element)"
+      ],
+      "correctAnswer": "element.getBoundingClientRect()",
+      "explanation": "Returns {width, height, top, left, right, bottom} relative to viewport."
+    },
+    {
+      "question": "What is event.key for spacebar?",
+      "options": [
+        "'Space'",
+        "'Spacebar'",
+        "' '",
+        "'Blank'"
+      ],
+      "correctAnswer": "' '",
+      "explanation": "event.key returns ' ' for spacebar. Use event.code for physical key ('Space')."
+    },
+    {
+      "question": "How to trigger event programmatically?",
+      "options": [
+        "element.trigger('click')",
+        "element.fireEvent('click')",
+        "element.dispatchEvent(new Event('click'))",
+        "element.simulate('click')"
+      ],
+      "correctAnswer": "element.dispatchEvent(new Event('click'))",
+      "explanation": "Create event with new Event(type) and dispatch with dispatchEvent()."
+    }
+  ],
+  "miniTasks": [
+    {
+      "title": "Create List HTML",
+      "description": "Generate HTML string for <ul> list from array",
+      "topic": "Element Creation",
+      "starterCode": "function createListHTML(items) {\n  // Return HTML string\n}",
+      "testCases": [
+        { "input": [["Apple", "Banana"]], "expected": "<ul><li>Apple</li><li>Banana</li></ul>" },
+        { "input": [[]], "expected": "<ul></ul>" }
+      ]
+    },
+    {
+      "title": "Email Validation",
+      "description": "Validate email format using regex",
+      "topic": "Form Handling",
+      "starterCode": "function isValidEmail(email) {\n  // Return boolean\n}",
+      "testCases": [
+        { "input": ["test@example.com"], "expected": true },
+        { "input": ["invalid-email"], "expected": false }
+      ]
+    },
+    {
+      "title": "Find Parent Element",
+      "description": "Find closest parent with given class (simulated)",
+      "topic": "DOM Traversal",
+      "starterCode": "function findParent(element, className) {\n  // Return parent object or null\n}",
+      "testCases": [
+        {
+          "input": [{ "id": "child", "parent": { "className": "target", "parent": null } }, "target"],
+          "expected": { "className": "target" }
+        }
+      ]
+    },
+    {
+      "title": "Generate RGB Color",
+      "description": "Create RGB string from inputs",
+      "topic": "Dynamic Styles",
+      "starterCode": "function generateRGB(r, g, b) {\n  // Return RGB string\n}",
+      "testCases": [
+        { "input": [255, 0, 128], "expected": "rgb(255, 0, 128)" }
+      ]
+    },
+    {
+      "title": "Debounce Function",
+      "description": "Implement debounce for resize events",
+      "topic": "Event Handling",
+      "starterCode": "function debounce(func, delay) {\n  // Return debounced function\n}",
+      "testCases": [
+        {
+          "input": ["(x) => x*2", 100],
+          "expected": "Function that executes after delay"
+        }
+      ]
+    },
+    {
+      "title": "Serialize Form Data",
+      "description": "Convert form data to JSON object",
+      "topic": "Form Handling",
+      "starterCode": "function formToJSON(fields) {\n  // Return JSON object\n}",
+      "testCases": [
+        {
+          "input": [{ "name": "email", "value": "test@test.com" }],
+          "expected": { "email": "test@test.com" }
+        }
+      ]
+    },
+    {
+      "title": "Calculate Element Position",
+      "description": "Calculate position relative to viewport",
+      "topic": "DOM Manipulation",
+      "starterCode": "function getPosition(element) {\n  // Return {top, left} object\n}",
+      "testCases": [
+        {
+          "input": { "offsetTop": 100, "offsetLeft": 50, "offsetParent": null },
+          "expected": { "top": 100, "left": 50 }
+        }
+      ]
+    },
+    {
+      "title": "Class Toggler",
+      "description": "Toggle classes based on conditions",
+      "topic": "Class Manipulation",
+      "starterCode": "function toggleClasses(element, classList) {\n  // Return element with updated classes\n}",
+      "testCases": [
+        {
+          "input": [{ "className": "" }, ["active", "visible"]],
+          "expected": { "className": "active visible" }
+        }
+      ]
+    },
+    {
+      "title": "Event Delegator",
+      "description": "Filter events by selector",
+      "topic": "Event Delegation",
+      "starterCode": "function shouldHandleEvent(target, selector) {\n  // Return boolean\n}",
+      "testCases": [
+        {
+          "input": [{ "tagName": "BUTTON" }, "button"],
+          "expected": true
+        }
+      ]
+    },
+    {
+      "title": "Input Sanitizer",
+      "description": "Sanitize user input for XSS protection",
+      "topic": "Form Handling",
+      "starterCode": "function sanitizeInput(input) {\n  // Return sanitized string\n}",
+      "testCases": [
+        {
+          "input": ["<script>alert()</script>Hello"],
+          "expected": "Hello"
+        }
+      ]
+    },
+    {
+      "title": "Keyboard Shortcut Detector",
+      "description": "Detect Ctrl+S/Cmd+S combination",
+      "topic": "Keyboard Events",
+      "starterCode": "function isSaveShortcut(event) {\n  // Return boolean\n}",
+      "testCases": [
+        {
+          "input": { "key": "s", "ctrlKey": true },
+          "expected": true
+        }
+      ]
+    },
+    {
+      "title": "DOM Diff Algorithm",
+      "description": "Compare two DOM states (simplified)",
+      "topic": "DOM Manipulation",
+      "starterCode": "function domDiff(oldNode, newNode) {\n  // Return differences array\n}",
+      "testCases": [
+        {
+          "input": [{ "id": 1 }, { "id": 1, "changed": true }],
+          "expected": ["changed"]
+        }
+      ]
+    }
+  ]
+
+
+}

@@ -534,17 +534,6 @@
 
   "miniTasks":[
   {
-    "title": "Create a Counter Using Closure",
-    "description": "Complete the function so it returns another function that increments and returns a private counter variable each time it's called. This helps you understand closures and private state.",
-    "topic": "Closures",
-    "starterCode": "function createCounter() {\n  let count = 0;\n  // TODO: return a function that increments and returns count\n}",
-    "testCases": [
-      { "input": [], "expected": 1 },
-      { "input": [], "expected": 2 },
-      { "input": [], "expected": 3 }
-    ]
-  },
-  {
     "title": "Sum All Arguments Using arguments Object",
     "description": "Implement a function that sums all arguments passed using the `arguments` object. This reinforces understanding of the arguments object and variable number of parameters.",
     "topic": "arguments object",
@@ -598,7 +587,7 @@
     "topic": "this keyword",
     "starterCode": "const obj = {\n  name: 'Bob',\n  arrowFunc: () => {\n    // TODO: return this.name\n  }\n};",
     "testCases": [
-      { "input": [], "expected": null }
+      { "input": [], "expected": "undefined" }
     ]
   },
   {
@@ -706,21 +695,12 @@
     ]
   },
   {
-    "title": "Demonstrate call() Method",
-    "description": "Use `call` to invoke a function with a given `this` context and argument.",
-    "topic": "this keyword",
-    "starterCode": "function sayName(greeting) {\n  // TODO: return greeting + ' ' + this.name\n}\nconst obj = { name: 'Jane' };\n// TODO: call sayName with obj as this and 'Hi' as argument",
-    "testCases": [
-      { "input": [], "expected": "Hi Jane" }
-    ]
-  },
-  {
     "title": "Demonstrate apply() Method",
     "description": "Use `apply` to invoke a function with a given `this` and arguments array.",
     "topic": "this keyword",
     "starterCode": "function sum(a, b) {\n  // TODO: return sum of a and b\n}\nconst nums = [5, 10];\n// TODO: apply sum with nums as arguments",
     "testCases": [
-      { "input": [], "expected": 15 }
+      { "input": [5, 10], "expected": 15 }
     ]
   },
   {

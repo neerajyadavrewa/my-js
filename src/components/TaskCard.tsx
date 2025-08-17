@@ -37,7 +37,7 @@ export default function TaskCard({
     const newResults: string[] = [];
 
     for (const testCase of task.testCases) {
-      const fullCode = `${code}\n\n${generateFunctionCall(code, testCase.input)}`;
+      const fullCode = `${code}\n\n${generateFunctionCall(code, testCase.input, task)}`;
 
       const res = await fetch("/api/submit-task", {
         method: "POST",
@@ -80,24 +80,111 @@ export default function TaskCard({
     }
   };
 
- const generateFunctionCall = (code: string, input: any) => {
+
+   const generateFunctionCall = (code: string, input: any, task: Task) => {
   const match = code.match(/function\s+(\w+)/);
   if (!match) return "// Error: No function found";
-
+  
   const functionName = match[1];
-  const args = Array.isArray(input)
-    ? input.map((arg) => JSON.stringify(arg)).join(", ")
-    : JSON.stringify(input);
+  const isFunctionString = (str: string) => {
+    return /^(?:async\s+)?(?:function\*?\s*\(|\([^)]*\)\s*=>|[_$a-zA-Z][\w$]*\s*=>|new\s+Promise)/.test(str);
+  };
 
-  // Special case: for Safe JSON Parse task, wrap output in JSON.stringify
-  if (task.title === "Safe JSON Parse") {
-    return `console.log(JSON.stringify(${functionName}(${args})));`;
+  const prepareArg = (arg: any) => {
+    if (typeof arg === "string" && isFunctionString(arg)) {
+      return arg;
+    } else if (typeof arg === "object" && arg !== null) {
+      return JSON.stringify(arg);
+    }
+    return JSON.stringify(arg);
+  };
+
+  let args = "";
+  if (Array.isArray(input)) {
+    args = input.map(prepareArg).join(", ");
+  } else {
+    args = prepareArg(input);
   }
 
-  // Default: normal console.log output
-  return `console.log(${functionName}(${args}));`;
-};
+  // Task-specific handling
+  if (task.title === "WebSocket Simulator") {
+    return `
+      const result = ${functionName}(${args});
+      console.log(JSON.stringify({
+        send: typeof result.send,
+        onMessage: typeof result.onMessage
+      }));
+    `;
+  }
 
+  if (task.title === "WebSocket Reconnect") {
+    return `
+      const result = ${functionName}(${args});
+      console.log(JSON.stringify({
+        connect: typeof result.connect,
+        onClose: typeof result.onClose
+      }));
+    `;
+  }
+
+  // Helper functions
+  const loggingHelper = `function formatOutput(result) {
+    if (result === null) return 'null';
+    if (result === undefined) return 'undefined';
+    if (typeof result === 'function') return 'function';
+    if (typeof result === 'symbol') return result.toString();
+    if (typeof result === 'object') return JSON.stringify(result);
+    return result;
+  }`;
+
+  // Categorize tasks
+  const asyncTasks = new Set([
+    "Fetch Simulator", "Retry Mechanism", "Concurrent Requests",
+    "Web Worker Simulator", "API Cache", "Exponential Backoff", 
+    "Async Batch Processor"
+  ]);
+
+  const promiseTasks = new Set([
+    "Promise Timeout", "Promise Queue", "Promise Cancellation"
+  ]);
+
+  const functionReturnTasks = new Set([
+    "Debounce Function", "Class Toggler", "Event Delegator"
+  ]);
+
+  // Handle different task types
+  if (asyncTasks.has(task.title)) {
+    return `${loggingHelper}
+      (async () => {
+        try {
+          const result = await ${functionName}(${args});
+          console.log(formatOutput(result));
+        } catch (err) {
+          console.log("Error: " + (err.message || err));
+        }
+      })();`;
+  }
+
+  if (promiseTasks.has(task.title)) {
+    return `${loggingHelper}
+      ${functionName}(${args})
+        .then(result => console.log(formatOutput(result)))
+        .catch(err => console.log("Error: " + (err.message || err)));`;
+  }
+
+  if (functionReturnTasks.has(task.title)) {
+    return `${loggingHelper}
+      const result = ${functionName}(${args});
+      console.log(typeof result === 'function' 
+        ? 'function' 
+        : formatOutput(result));`;
+  }
+
+  // Default handler
+  return `${loggingHelper}
+      const result = ${functionName}(${args});
+      console.log(formatOutput(result));`;
+};
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}

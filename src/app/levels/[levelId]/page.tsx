@@ -6,6 +6,8 @@ import { useParams, useRouter } from "next/navigation";
 import level1 from "../../../data/level1.json";
 import level2 from "../../../data/level2.json";
 import level3 from "../../../data/level3.json";
+import level4 from "../../../data/level4.json";
+import level5 from "../../../data/level5.json";
 
 import NotesSection from "../../../components/NotesSection";
 import MCQSection from "../../../components/MCQSection";
@@ -19,6 +21,8 @@ const levels: Record<number, LevelData> = {
   1: level1,
   2: level2,
   3: level3,
+  4: level4,
+  5: level5,
 };
 
 export default function LevelPage() {
@@ -30,7 +34,9 @@ export default function LevelPage() {
 
   const levelData = levels[levelIdNum];
 
-  const [currentStep, setCurrentStep] = useState<"notes" | "mcq" | "mini" | "complete">("notes");
+  const [currentStep, setCurrentStep] = useState<
+    "notes" | "mcq" | "mini" | "complete"
+  >("notes");
   const [showConfetti, setShowConfetti] = useState(false);
 
   // Reset step when levelId changes
@@ -54,7 +60,9 @@ export default function LevelPage() {
         <div>
           <h1 className="text-4xl font-bold mb-4 text-red-400">🚫 Level Not Found</h1>
           <p className="text-lg text-gray-300 mb-6">
-            The level <span className="font-mono text-indigo-400">"{levelIdParam}"</span> does not exist.
+            The level{" "}
+            <span className="font-mono text-indigo-400">"{levelIdParam}"</span> does not
+            exist.
           </p>
           <button
             onClick={() => router.push("/levels/1")}
@@ -71,18 +79,54 @@ export default function LevelPage() {
   const totalLevels = Object.keys(levels).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900 text-gray-200 px-4 py-10 sm:px-6">
-      {showConfetti && (
-        <Confetti
-          width={window.innerWidth}
-          height={window.innerHeight}
-          numberOfPieces={400}
-          recycle={false}
-          gravity={0.2}
-        />
-      )}
+    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-black to-gray-900 text-gray-200 px-4 py-10 sm:px-6 flex">
+      
+      {/* Sticky Sidebar */}
+      <nav className="sticky top-20 flex flex-col space-y-4 w-40 mr-8 self-start">
+        <button
+          onClick={() => setCurrentStep("notes")}
+          className={`px-4 py-2 rounded text-left ${
+            currentStep === "notes"
+              ? "bg-indigo-600 text-white"
+              : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+          }`}
+        >
+          Notes
+        </button>
+        <button
+          onClick={() => setCurrentStep("mcq")}
+          className={`px-4 py-2 rounded text-left ${
+            currentStep === "mcq"
+              ? "bg-indigo-600 text-white"
+              : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+          }`}
+        >
+          MCQs
+        </button>
+        <button
+          onClick={() => setCurrentStep("mini")}
+          className={`px-4 py-2 rounded text-left ${
+            currentStep === "mini"
+              ? "bg-indigo-600 text-white"
+              : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+          }`}
+        >
+          Mini Tasks
+        </button>
+      </nav>
 
-      <div className="max-w-5xl mx-auto space-y-14">
+      {/* Main Content */}
+      <div className="flex-1 max-w-5xl mx-auto space-y-14">
+        {showConfetti && (
+          <Confetti
+            width={window.innerWidth}
+            height={window.innerHeight}
+            numberOfPieces={400}
+            recycle={false}
+            gravity={0.2}
+          />
+        )}
+
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}
@@ -92,9 +136,15 @@ export default function LevelPage() {
             transition={{ duration: 0.5 }}
             className="space-y-16"
           >
-            {currentStep === "notes" && <NotesSection notes={notes} onComplete={handleNext} />}
-            {currentStep === "mcq" && <MCQSection mcqs={mcqs} onComplete={handleNext} />}
-            {currentStep === "mini" && <MiniTasksSection tasks={miniTasks} onComplete={handleNext} />}
+            {currentStep === "notes" && (
+              <NotesSection notes={notes} onComplete={handleNext} />
+            )}
+            {currentStep === "mcq" && (
+              <MCQSection mcqs={mcqs} onComplete={handleNext} />
+            )}
+            {currentStep === "mini" && (
+              <MiniTasksSection tasks={miniTasks} onComplete={handleNext} />
+            )}
 
             {currentStep === "complete" && (
               <motion.div
